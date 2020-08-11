@@ -6,7 +6,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
+//引入局部配置
 @PropertySource("classpath:config/applicationtest.properties")
+//添加前缀不用@Value
 @ConfigurationProperties(prefix = "com.qq")
 public class ApplicationTest {
 //    //1)获取applicationtest.properties里面的属性
