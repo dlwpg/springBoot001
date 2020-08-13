@@ -1,6 +1,7 @@
 package com.wpg.springboot001.moudles.test.service;
 
 import com.github.pagehelper.PageInfo;
+import com.wpg.springboot001.moudles.common.vo.Result;
 import com.wpg.springboot001.moudles.common.vo.SearchVo;
 import com.wpg.springboot001.moudles.test.pojo.City;
 
@@ -12,4 +13,16 @@ public interface CityService {
 
     //分页查询
     PageInfo<City> getCitiesBySearchVo(int countryId,SearchVo searchVo);
+
+    //多条件查询
+    PageInfo<City> getCitiesBySearchVo(SearchVo searchVo);
+
+    //插入操作
+    Result<City> insertcity(City city);
+
+    //修改操作
+    Result<City> updateCity(City city);
+
+    //删除操作
+    Result<City> deleteCity(Integer cityId);
 }
