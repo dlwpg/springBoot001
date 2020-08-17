@@ -30,4 +30,13 @@ public class CountryController {
         Country country=countryService.getCountryByCountryName(countryName);
         return country;
     }
+
+    /**
+     *192.168.18.232/api/redis/522---get
+     * by redis
+     */
+    @GetMapping("/redis/{countryId}")
+    public Country getCountryByRedis(@PathVariable Integer countryId){
+      return  countryService.getCountryByredis(countryId);
+    }
 }

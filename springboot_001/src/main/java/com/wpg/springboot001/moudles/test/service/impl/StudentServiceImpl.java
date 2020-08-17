@@ -3,6 +3,7 @@ package com.wpg.springboot001.moudles.test.service.impl;
 import com.wpg.springboot001.moudles.common.vo.Result;
 import com.wpg.springboot001.moudles.common.vo.SearchVo;
 import com.wpg.springboot001.moudles.test.hibernatedao.StudentHibernatedao;
+import com.wpg.springboot001.moudles.test.pojo.City;
 import com.wpg.springboot001.moudles.test.pojo.Student;
 import com.wpg.springboot001.moudles.test.service.StudentService;
 import org.apache.commons.lang3.StringUtils;
@@ -64,6 +65,20 @@ public class StudentServiceImpl implements StudentService {
                 .withIgnorePaths("studentId");
         Example<Student> example = Example.of(student, matcher);
 
+//        //获取排序规则
+//        Sort.Direction direction = "desc".equalsIgnoreCase(searchVo.getSort())
+//                ? Sort.Direction.DESC : Sort.Direction.ASC;
+//        Sort sort = new Sort(direction, StringUtils.isBlank(searchVo.getOrderBy())
+//                ? "studentId" : searchVo.getOrderBy());
+//        Pageable pageable= new PageRequest(searchVo.getCurrentPage()-1,searchVo.getPageSize(),sort);
+//
+//        Student student=new Student();
+//        student.setStudentName(searchVo.getKeyWord());
+//        ExampleMatcher matcher=ExampleMatcher.matching()
+//                .withMatcher("studentName",match->match.contains())
+//                .withIgnorePaths("studentId");
+//        Example<Student> example=Example.of(student,matcher);
+        
         return studentHibernatedao.findAll(example, pageable);
     }
 
@@ -79,6 +94,7 @@ public class StudentServiceImpl implements StudentService {
     //模糊查询所有
     @Override
     @Transactional
+    //%S-->自动转化为大写    %s--->传入是大写就是大写，小写就是小写
     public List<Student> getStudentByStudentNameLike(String studentName) {
         return studentHibernatedao.findByStudentNameLike(String.format("%s%S%s", "%", studentName, "%"));
     }
@@ -95,9 +111,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public List<Student> getStudentByStudentNameAndCardId(String studentName, Integer cardid) {
-        if (cardid > 0){
-            return  studentHibernatedao.getStudentByStudentNameAndCardId_hql(studentName,cardid);
-        }else {
+        if (cardid > 0) {
+            return studentHibernatedao.getStudentByStudentNameAndCardId_hql(studentName, cardid);
+        } else {
             return this.getStudentByStudentNameLike(studentName);
         }
 
