@@ -1,6 +1,6 @@
 package com.wpg.springboot001.moudles.test.dao;
 
-import com.wpg.springboot001.moudles.common.vo.SearchVo;
+import com.wpg.springboot001.vo.SearchVo;
 import com.wpg.springboot001.moudles.test.pojo.City;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;

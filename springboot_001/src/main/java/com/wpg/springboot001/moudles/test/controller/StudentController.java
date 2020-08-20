@@ -1,7 +1,7 @@
 package com.wpg.springboot001.moudles.test.controller;
 
-import com.wpg.springboot001.moudles.common.vo.Result;
-import com.wpg.springboot001.moudles.common.vo.SearchVo;
+import com.wpg.springboot001.vo.Result;
+import com.wpg.springboot001.vo.SearchVo;
 import com.wpg.springboot001.moudles.test.pojo.Student;
 import com.wpg.springboot001.moudles.test.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;

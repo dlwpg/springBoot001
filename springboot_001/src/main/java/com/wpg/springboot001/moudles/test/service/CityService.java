@@ -1,8 +1,8 @@
 package com.wpg.springboot001.moudles.test.service;
 
 import com.github.pagehelper.PageInfo;
-import com.wpg.springboot001.moudles.common.vo.Result;
-import com.wpg.springboot001.moudles.common.vo.SearchVo;
+import com.wpg.springboot001.vo.Result;
+import com.wpg.springboot001.vo.SearchVo;
 import com.wpg.springboot001.moudles.test.pojo.City;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.wpg.springboot001.moudles.config;
+package com.wpg.springboot001.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

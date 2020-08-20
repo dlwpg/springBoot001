@@ -1,6 +1,6 @@
 package com.wpg.springboot001.moudles.test.service;
 
-import com.wpg.springboot001.moudles.common.vo.Result;
+import com.wpg.springboot001.vo.Result;
 import com.wpg.springboot001.moudles.test.pojo.Card;
 
 public interface CardService {

@@ -1,4 +1,4 @@
-package com.wpg.springboot001.moudles.common.vo;
+package com.wpg.springboot001.vo;
 
 public class Result<T> {
     private int status;

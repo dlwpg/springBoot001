@@ -1,0 +1,62 @@
+<div id="register" class="animate form login_form">
+    <section class="login_content">
+        <form action="javascript:void (0);">
+            <h1>Register your account</h1>
+            <div>
+                <input type="text" name="userName" class="form-control" placeholder="Username" required=""/>
+            </div>
+            <div>
+                <input type="password" name="password" class="form-control" placeholder="Password" required=""/>
+            </div>
+            <div>
+                <a class="btn btn-default submit" id="registerbtn" href="javascript:void (0);">Submit</a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="separator">
+                <p class="change_link">Already a member ?
+                    <a href="/account/login" class="to_register"> TO Login </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br/>
+
+                <div>
+                    <h1><i class="fa fa-paw"></i>product by WPG</h1>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#registerbtn").bind('click', function () {
+            register();
+        })
+    })
+
+    function register() {
+
+        var user = {};
+        user.userName = $("input[name='userName']").val();
+        user.password = $("input[name='password']").val();
+
+        $.ajax({
+            url: "/api/user",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(user),
+            dataType: "json",
+            success: function (data) {
+
+                if (data.status == 200) {
+                    alert(data.message)
+                } else {
+                    alert(data.message)
+                }
+            }
+
+        })
+    }
+</script>

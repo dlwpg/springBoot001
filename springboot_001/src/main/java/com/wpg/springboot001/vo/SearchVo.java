@@ -1,4 +1,4 @@
-package com.wpg.springboot001.moudles.common.vo;
+package com.wpg.springboot001.vo;
 
 //分页类（包含前端传过来的所有类容）
 public class SearchVo {
