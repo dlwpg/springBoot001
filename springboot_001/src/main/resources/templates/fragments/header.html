@@ -8,7 +8,10 @@
             <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                        <img src="/images/1111.png" alt="">WPG
+                        <img th:src="${session.UserInfo.userImg}" alt="">
+                        <shiro:principal property="userName"/>
+                        <!--<span shiro:principal property="userName"/>
+                        <input type="hidden" id="userIco" th:value="${session.UserInfo.userImg}">-->
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"  href="javascript:;"> 个人信息</a>
@@ -17,7 +20,7 @@
                             <span>设置</span>
                         </a>
                         <a class="dropdown-item"  href="javascript:;">帮助</a>
-                        <a class="dropdown-item"  href="login.html"><i class="fa fa-sign-out pull-right"></i>退出</a>
+                        <a class="dropdown-item"  href="/account/logout"><i class="fa fa-sign-out pull-right"></i>退出</a>
                     </div>
                 </li>
 
@@ -66,3 +69,14 @@
     </div>
 </div>
 <!-- /top navigation -->
+<!--<script type="text/javascript">-->
+<!--    $(function () {-->
+
+<!--        initImg();-->
+<!--    })-->
+
+<!--    function initImg() {-->
+<!--console.log($("#userIco").value);-->
+<!--        $("#userImgIco").val($("#userIco").value);-->
+<!--    }-->
+<!--</script>-->
