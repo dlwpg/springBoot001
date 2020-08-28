@@ -3,13 +3,10 @@ package com.wpg.springboot001.moudles.test.service.impl;
 import com.wpg.springboot001.moudles.test.dao.CountryDao;
 import com.wpg.springboot001.moudles.test.pojo.Country;
 import com.wpg.springboot001.moudles.test.service.CountryService;
-import com.wpg.springboot001.moudles.utils.RedisUtils;
+import com.wpg.springboot001.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class CountryServiceImpl implements CountryService {

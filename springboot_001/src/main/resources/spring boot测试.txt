@@ -1,0 +1,139 @@
+一、选择题（共12小题，每小题2.5分，共30分）
+	以下不是spring boot优点的是 ( D )
+		A．快速搭建项目
+		B．简化配置  
+		C．自动配置  
+		D．无需容器
+	Spring Boot配置，以下哪个优先级最高（A ）
+		A、外置：xx.jar同目录下/config/application.properties；
+		B、外置：xx.jar同目录下/config/application.yml；
+		C、内置：src/main/resources/config；
+		D、内置：src/main/resources
+	以下log日志级别哪个最高（D）
+		A、DEBUG
+		B、INFO
+		C、WARN
+		D、ERROR
+	以下不是spring boot的核心注解的是 (B  )
+		A.	@SpringBootConfiguration
+		B.	@EnableAutoConfiguration
+		C.	@ComponentScan
+		D.	@MapperScan
+	要使用springMVC的功能，需要导入那个包 (C  )
+		A．spring-boot-starter-jdbc  
+		B．spring-boot-starter-thymeleaf  
+		C．spring-boot-starter-web  
+		D．mybatis-spring-boot-starter
+	以下哪个注解不能加在类上 ( B )
+		A.	@Controller
+		B.	@ResponseBody
+		C.	@RestController
+		D.	@RequestMapping
+	当控制层上有@RestController注解时，方法中返回一个字符串“<h1>Hello</h1>”，浏览器调用的结果是 ( B )
+		A. 一级标题显示的Hello
+		B.	找不到Hello.html
+		C.	<h1>Hello</>
+		D.	Hello
+	SpringBoot项目中配置文件的格式 (C  )
+		A．properties  
+		B．yml  
+		C．两者都可以
+	不是SpringBoot核心配置文件是（A）
+		A.	bootstrap
+		B.	application
+		C.	application-dev
+	前台使用json参数格式，控制器consumer、参数使用的注解是（A）
+		A、application/josn ---- @RequestBody
+		B、application/josn ---- @ModelAttribute
+		C、application/x-www-form-urlencoded ---- @RequestBody
+		D、application/x-www-form-urlencoded ---- @ModelAttribute
+	@Pointcut("execution(public * com.thornBird.sbd.modules.*.controller.*.*(..))")，第三个*代表（C）
+		A、代表返回类型不限
+		B、代表module下所有子包
+		C、代表所有类
+		D、代表所有方法
+	Url匹配风格中/admin*，以下哪个匹配不正确（D）
+		A、/admin
+		B、/admin1
+		C、/admin123
+		D、/admin/1
+	Mybatis框架中，插入数据使用那个注解（B）
+		A、@Update
+		B、@Insert
+		C、@Select
+		D、@InsertMapping
+
+二、填空题（共5小题，每小题5分，共25分）
+	获取配置文件的属性值，使用哪个注解___@Value("${xxx}"）_____________；
+	Java配置依赖的2个注解是____@Confirguration______，____@Bean_______;
+	Spring Boot修改tomcat端口号为9090应该怎么写？_____ connector.setPort(9090)_______;
+	自定义拦截器需要实现___HandlerInterceptor_____接口；
+	过滤器需要使用____@WebFilter_____注解;
+	上传文件，使用__@RequestParam MultipartFile file__接收文件对象，consumer使用__multipart/form-data___;
+
+三、问答题（每题5分，共25分）
+	阐述 Spring Boot 特性，举一个例子来解释 Staters 的内容；
+        答：springboot 配置简化，自动整合了大多数框架达到快速开发，习惯由于配置，多个组件结合到一起的依赖集合，以start的形式开始。
+
+	Mybatis传参中，#{*}、${*}的区别？
+        答：#{*}，使用的是预加载方法，先加载sql语句，在执行程序，一个#{*}相当于一个占位符，防止了sql的注入攻击，一般情况下推荐使用；
+            ${*}，使用的是字符串拼接的方式实现的，如果sql中的参数使用会被sql注入攻击，但是像是sql语句中的order by 等关键字时必须使用${*},不然会                    有''引起来，引起错误；
+
+	简述Restful规则？
+        答：RESTful风格用来包装HTTP协议，并用json或xml格式实现数据交互；
+            URL命名原则：
+              1、 URL请求采用小写字母，数字，部分特殊符号（非制表符）组成。
+              2、 URL请求中不采用大小写混合的驼峰命名方式，尽量采用全小写单词，如果需要连接多个单词，则采用连接符“_”连接单词。
+            请求方式：
+                GET – 返回一个新的order
+                POST- 创建一个新的order，从post请求携带的内容获取值。
+                单资源带id(singular-resourceX/{id} ) URL样例：order/1 ( order即指那个单独的资源X )
+                PUT （UPDATE）：更新服务器上的资源，提供整个资源。
+                DELETE （DELETE）：从服务器删除资源。
+
+	简述Git使用流程，写几个常用Git命令？
+        答:创建一个远程的git仓库，将仓库地址复制，然后本地建个文件夹用git克隆复制下来；然后在该文件夹中创建项目，项目写完后commit到本地仓库
+           ，成功后在push到远程仓库；
+           1. git clone xxxx  克隆仓库地址
+           2. git branch ---查看本地分支
+           3. git branch -r ---查看所有远程分支
+           4.git push origin --delete remote_branch   ----删除远程分支
+
+	简述shiro两大功能实现流程；
+            答：用户认证：实现类创建一个Subject -》 创建令牌类并塞入匹配数据 -》 subject.login（令牌）  -》进入身份匹配
+                -》 获取传入信息  -》查询数据库 -》 SimpleAuthenticationInfo匹配
+                用户授权：获取到SimpleAuthenticationInfo中的用户信息-》数据库查询用户拥有的权限 -》将权限加入集合然后返回集合 -》前端通过
+                不同的权限放开不同的权限；
+
+四、编程题（每题10分，共20分）
+	1、提供一个接口，返回 List<User> 列表，对该列表进行排序、保留10条数据；页面端使用 ajax post 方式提交请求，包装查询参数，获取接口返回数据，并遍           历数据渲染到页面上 table 表格中；
+         答：GetMaping("/users")
+             public List<User> getUsers(){
+              return userServiceDao.getUsers();
+             }
+              html：
+               <table>
+                <thead>
+                <th>表头信息</th>  *n个
+                </thead>
+                <tbody>xxx渲染的信息</tbody>
+               </table>
+             Ajax请求：
+              <script type="text/javascript">
+              封装searchvo的一系列数据；
+              $.ajax({
+                     url:"api/users",
+                     type:"get",
+                      contentType: "application/json",
+                        data: JSON.stringify(searchVo),
+                        success: function (data) {
+                          获取数据渲染表格；  
+                            };
+                        error: function (data) {
+                            错误的处理;
+                        }
+                      })
+              </script>
+	
+	2、设计一套购物车接口，以 Cookie 或者 redis 实现
+           

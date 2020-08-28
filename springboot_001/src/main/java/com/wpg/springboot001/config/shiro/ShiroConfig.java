@@ -32,6 +32,7 @@ public class ShiroConfig {
         SecurityManager.setRealm(myRealm);
         //设置记住我
         SecurityManager.setRememberMeManager(rememberMeManager());
+        SecurityManager.setSessionManager(sessionManager());
         return SecurityManager;
     }
 

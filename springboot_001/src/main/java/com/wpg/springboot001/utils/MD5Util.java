@@ -1,4 +1,4 @@
-package com.wpg.springboot001.moudles.utils;
+package com.wpg.springboot001.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
