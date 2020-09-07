@@ -143,7 +143,7 @@ public class ShiroConfig {
 
     //sessoincookie
     public SimpleCookie sessionCookie() {
-        SimpleCookie simpleCookie = new SimpleCookie();
+        SimpleCookie simpleCookie = new SimpleCookie("shiroCoockie");
         simpleCookie.setPath("/");
         simpleCookie.setHttpOnly(true);
         simpleCookie.setMaxAge(30 * 24 * 60 * 60);
