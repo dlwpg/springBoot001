@@ -1,0 +1,109 @@
+一，选择题
+	以下哪个不是python解释器  C
+		CPython
+		IPython
+		Jython
+		py
+	下列哪个表达式在Python中是非法的？B
+		x = y = z = 1
+		x = (y = z + 1)
+		x, y = y, x
+		x += y
+	print("%d %% %d"%(3, 5)) 输出结果是？A
+		3 % 5
+		3 %% 5
+		2
+		1
+	“今年第一季度GDP提高了x%”，x为float值，格式化字符串，x保留两位小数，下面哪个是正确的？ C
+		print("今年第一季度GDP提高了%.2f"%(22.234,))
+		print("今年第一季度GDP提高了%.2f%"%(22.234,))
+		print("今年第一季度GDP提高了%.2f%%"%(22.234,))
+		print("今年第一季度GDP提高了{0}%".format(22.234))
+	l = ["cdsa", 32, 33.2, None, True];l.pop();print(l);打印结果是：C
+		["cdsa", 32, 33.2, True]
+		["cdsa", 32, None, True]
+		["cdsa", 32, 33.2, None]
+		[32, 33.2, None, True]
+	print(15 // 2);B
+		1
+		7
+		7.5
+		8
+	下面哪个不是 python 的数据类型  B
+		int
+		str
+		set
+		double
+	*args 代表什么参数   B
+		位置参数
+		可变参数
+		可变关键字参数
+		命名关键字参数
+	函数多个返回值，实际上返回的是什么数据类型？C
+		list
+		set
+		tuple
+		dict
+	安装Django2.0.7版本，使用的什么命令？C
+		pip install django
+		pip install django=2.0.7
+		pip install django==2.0.7
+		pip install django version=2.0.7
+
+二、填空题
+	字符串前面添加u、r、b分别代表什么？
+        u:表示unicode字符串;r:非转义的原始字符串;b:bytes
+
+	requests模块请求远程服务器，如何设置相应编码？
+        r = requests.get(url);
+        r.encoding = r.apparent_encoding;
+
+	windows下执行python的方式；
+        1.在cmd模式下通过cd进入到python.exe的绝对路径，通过>>>交互
+        2.把代码编写到.py格式的文件，并保存，保存后通过cmd命令行找到该文件位置，python xxx.py
+
+	创建python package，会自动生成什么文件？
+        __init__.py文件   
+
+	python变量作用域有哪些？
+        L （Local） 局部作用域
+        E （Enclosing） 闭包函数外的函数中
+        G （Global） 全局作用域
+        B （Built-in） 内建作用域
+
+三、问答题
+	python命名规则？
+        大小写字母，数字，下划线和汉字等字符组合，大小写敏感，首字符不能是数字，不与保留字相同
+
+	set删除操作中，pop、remove的区别？
+        remove（1）从下标0开始移除，pop（）从最后开始移除
+
+	list使用+=和append函数的区别？
+        + 加号，是将两个list相加，会返回到一个新的list对象。append列表增加元素的操作，没有返回值，是直接修改了原数据对象。
+
+	使用bs4解析响应内容，获取某div（class为aaa）下所有span节点；
+        bs = BeautifulSoup(response_text, "html.parser");
+        span_list = bs.find_all(classmethod="aaa", name="span");
+
+   	简述Django操作流程、组件的作用；
+        用户通过浏览器请求页面
+        拿到用户的url会通过urls.py文件进行匹配，找到相应的View（视图）
+        调用View中的函数
+        View中的方法可以通过Models访问数据库数据，并将数据返回给View
+        如果需要views可以使用Context，context被传递给Template（模板）来生成html页面
+        返回响应对象到浏览器，给用户呈现效果
+
+四、编程题
+	定义一个函数，接受 0 个或多个参数，返回累计乘积；
+        def prodouct(*num):
+            if len(num) > 0 :
+               n = 1;
+               for x in num:
+               n = n * x;
+            else:n=0;
+            return n  ;    
+
+	定义一个函数，去掉字符串前后的空格；
+        def prodouct(str):
+            str1 = str.strip();
+            return str1;
