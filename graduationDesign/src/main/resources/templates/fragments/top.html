@@ -15,14 +15,19 @@
             <ul class="topbar-right">
                 <li class="dropdown dropdown-profile">
                     <a href="javascript:void(0)" data-toggle="dropdown">
-                        <img class="img-qrcode img-qrcode-46" src="/images/ftsucai.png" alt="用户头像" /><span>飞天素材网<span class="caret"></span></span>
+                        <img id="topUserImage" class="img-qrcode img-qrcode-46" src="/images/user.png" alt="用户头像"/>
+                        <!--使用这种就直接写属性-->
+                        <shiro:principal property="userName"/>
+                        <input type="hidden" id="topUserId" th:value="${session.UserInfo.userId}">
+                        <!--和其他标签结合写法<input type="hidden" id="userIco" th:value="${session.UserInfo.userImg}">&ndash;&gt;-->
+                        <span><span class="caret"></span></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li> <a href="pages_profile.html"><i class="ftsucai-58"></i> 个人信息</a> </li>
-                        <li> <a href="pages_edit_pwd.html"><i class="ftsucai-edit-2"></i> 修改密码</a> </li>
-                        <li> <a href="javascript:void(0)"><i class="ftsucai-del-2"></i> 清空缓存</a></li>
+                        <li><a href="/nxzm/user/profile"><i class="ftsucai-58"></i> 个人信息</a></li>
+                        <li><a href="/nxzm/user/edituserpassword"><i class="ftsucai-edit-2"></i> 修改密码</a></li>
+                        <li><a href="javascript:void(0)"><i class="ftsucai-del-2"></i> 清空缓存</a></li>
                         <li class="divider"></li>
-                        <li><a href="pages_login.html"><i class="ftsucai-exit2"></i> 退出登录</a> </li>
+                        <li><a href="/nxzm/user/logout"><i class="ftsucai-exit2"></i> 退出登录</a></li>
                     </ul>
                 </li>
             </ul>
@@ -31,3 +36,24 @@
     </nav>
 
 </header>
+<script type="text/javascript">
+    $(function () {
+        var user = {};
+        user.userId = $("#topUserId").val();
+        // console.log(user)
+        $.ajax({
+            url: "/shone/user/" + user.userId,
+            type: "post",
+            data: JSON.stringify(user),
+            success: function (data) {
+
+                if (data.object.image != null) {
+                    console.log(data);
+                    console.log(data.object.image);
+                    $("#topUserImage").attr("src", "/upload/userimg/"+data.object.image);
+                }
+            }
+
+        })
+    });
+</script>

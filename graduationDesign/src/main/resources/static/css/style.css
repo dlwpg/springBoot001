@@ -809,7 +809,7 @@ input[type=radio] {
 
 /* 开关 */
 .ftdms-switch {
-    display: -webkit-inline-box;
+    display: -wekwebkit-inline-box;
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex;

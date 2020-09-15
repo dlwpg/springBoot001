@@ -1,18 +1,13 @@
 package com.wpg.graduationdesign.config.shiro;
 
 import com.wpg.graduationdesign.moudles.shones.dao.UserDao;
-import com.wpg.graduationdesign.moudles.shones.pojo.User;
-import com.wpg.graduationdesign.vo.Result;
+import com.wpg.graduationdesign.moudles.shones.entity.User;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class MyRealm extends AuthorizingRealm {
@@ -57,7 +52,7 @@ public class MyRealm extends AuthorizingRealm {
             throw new UnknownAccountException("这个账户不存在！");
         }
         if (user.getStatus() == 0) {
-            throw new AuthorizationException("未激活");
+            throw new LockedAccountException("未激活");
         }
 
         return new SimpleAuthenticationInfo(user, user.getPassWord(), getName());

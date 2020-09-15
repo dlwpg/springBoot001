@@ -1,0 +1,36 @@
+<div id="userAddModel"  class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">添加用户</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="userName"/>
+                </div>
+                <div class="form-group">
+                    <label for="passWord">密码</label>
+                    <input type="text" class="form-control" name="passWord" id="passWord">
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="text" class="form-control" name="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label >性别</label>
+                    <input type="radio" name="sex"
+                           value="1" checked="checked">男
+                    <input type="radio" name="sex"
+                           value="0">女
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="rUserAddBtn" type="button" class="btn btn-default" data-dismiss="modal">确认添加</button>
+            </div>
+        </div>
+    </div>
+</div>

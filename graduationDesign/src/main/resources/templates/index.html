@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
         lang="en">
 <head>
     <meta charset="utf-8">
@@ -15,9 +17,16 @@
     <link th:href="${'/css/fonts.css'}" rel="stylesheet">
     <link th:href="${'/css/style.css'}" rel="stylesheet">
 
+    <!-- 引入js -->
+    <!-- jQuery -->
     <!--    juery必须写在其他js前，且位置在body前-->
-    <script type="text/javascript" th:src="${'/js/jquery.min.js'}"></script>
+    <script type="text/javascript" th:src="${'/js/jquery-3.5.0.min.js'}"></script>
     <script type="text/javascript" th:src="${'/js/bootstrap.min.js'}"></script>
+    <script type="text/javascript" th:src="${'/js/perfect-scrollbar.min.js'}"></script>
+    <script type="text/javascript" th:src="${'/js/main.min.js'}"></script>
+
+    <!--图表插件-->
+    <script type="text/javascript" th:src="${'/js/Chart.js'}"></script>
 
     <!-- layer -->
     <script th:src="@{https://cdn.bootcss.com/layer/2.1/layer.js}"
@@ -38,14 +47,9 @@
     </div>
 </div>
 
-<script type="text/javascript" th:src="${'/js/jquery.min.js'}"></script>
-<script type="text/javascript" th:src="${'/js/bootstrap.min.js'}"></script>
-<script type="text/javascript" th:src="${'/js/perfect-scrollbar.min.js'}"></script>
-<script type="text/javascript" th:src="${'/js/main.min.js'}"></script>
 
-<!--图表插件-->
-<script type="text/javascript" th:src="${'/js/Chart.js'}"></script>
 
-<script type="text/javascript" th:src="${'/js/baidu.js'}"></script>
+
+<!--<script type="text/javascript" th:src="${'/js/baidu.js'}"></script>-->
 </body>
 </html>

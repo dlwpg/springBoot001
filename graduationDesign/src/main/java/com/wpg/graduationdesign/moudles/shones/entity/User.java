@@ -1,17 +1,47 @@
-package com.wpg.graduationdesign.moudles.shones.pojo;
+package com.wpg.graduationdesign.moudles.shones.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 //如果表名和类名不一样就加这个@Table(name="db_user")
 public class User implements Serializable {
+    private static final long serialVersionUID = 514622190976678602L;
     private int userId;
     private String userName;
     private String passWord;
     private String phone;
     private String receiveAddress;
     private String email;
+    private String image;
     private int status;
+    private String sex;
 
+
+    private List<UserRole> userRoles;
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     private boolean rememberMe;
 
@@ -88,6 +118,11 @@ public class User implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", receiveAddress='" + receiveAddress + '\'' +
                 ", email='" + email + '\'' +
+                ", image='" + image + '\'' +
+                ", status=" + status +
+                ", sex='" + sex + '\'' +
+                ", userRoles=" + userRoles +
+                ", rememberMe=" + rememberMe +
                 '}';
     }
 }

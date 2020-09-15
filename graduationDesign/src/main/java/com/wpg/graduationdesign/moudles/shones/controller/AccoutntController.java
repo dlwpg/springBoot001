@@ -13,36 +13,74 @@ public class AccoutntController {
     private UserService userService;
 
     /**
-     * 127.0.0.1/nxzm/login   ==get
+     * 127.0.0.1/nxzm/user/login   ==get
      */
-    @GetMapping("/login")
+    @GetMapping("/user/login")
     public String login(){
         return "indexsample";
     }
 
     /**
-     * 127.0.0.1/nxzm/index   ==get
+     * 127.0.0.1/nxzm/user/mainpage   ==get
      */
-    @GetMapping("/mainpage")
+    @GetMapping("/user/mainpage")
     public String index(){
         return "index";
     }
 
     /**
-     * 127.0.0.1/nxzm/register   ==get
+     * 127.0.0.1/nxzm/user/register   ==get
      */
-    @GetMapping("/register")
+    @GetMapping("/user/register")
     public String register(){
         return "indexsample";
     }
 
     /**
-     * 127.0.0.1/nxzm/register   ==get
+     * 127.0.0.1/nxzm/user/register   ==get
      */
-    @GetMapping("/activation/{userId}")
+    @GetMapping("/user/activation/{userId}")
     @ResponseBody
     public String activestatus(@PathVariable int userId){
         userService.activeStatus(userId);
         return "激活成功！";
     }
+
+
+    /**
+     * 127.0.0.1/nxzm/user/profile   ==get
+     */
+    @GetMapping("/user/profile")
+    public String profile(){
+        return "index";
+    }
+
+    /**
+     * 127.0.0.1/nxzm/user/edituserpassword   ==get
+     */
+    @GetMapping("/user/edituserpassword")
+    public String editUserPassword(){
+        return "index";
+    }
+
+    /**
+     * 127.0.0.1/nxzm/user/revisepassword   ==get
+     */
+    @GetMapping("/user/revisepassword")
+    @ResponseBody
+    public String revisePassword(@RequestParam("userId") int  userId,
+                                 @RequestParam("newPassword") String  newPassword){
+        userService.revisePassword(userId,newPassword);
+        return "密码修改成功！";
+    }
+
+    /**
+     * 127.0.0.1/nxzm/user/users   ==get
+     */
+    @GetMapping("/user/users")
+    public String users(){
+        return "index";
+    }
+
+
 }

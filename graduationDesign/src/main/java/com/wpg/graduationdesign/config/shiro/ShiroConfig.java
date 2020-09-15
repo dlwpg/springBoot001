@@ -59,25 +59,33 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(defaultSecurityManager());
 
-        shiroFilterFactoryBean.setLoginUrl("/nxzm/login");
+        shiroFilterFactoryBean.setLoginUrl("/nxzm/user/login");
         shiroFilterFactoryBean.setSuccessUrl("/nxzm/index");
 
         Map<String, String> map = new LinkedHashMap<>();
         //不用登陆也能访问到的路径
-        map.put("/", "user");
+        //默认定位到static下
+        map.put("/", "authc");
         map.put("/static/**", "anon");
         map.put("/js/**", "anon");
         map.put("/css/**", "anon");
         map.put("/fonts/**", "anon");
         map.put("/images/**", "anon");
-        map.put("/nxzm/login", "anon");
+        map.put("/plugin/**", "anon");
+        map.put("/upload/**", "anon");
+        map.put("/nxzm/user/login", "anon");
         map.put("/shone/login", "anon");
         map.put("/shone/register", "anon");
-        map.put("/nxzm/register", "anon");
+        map.put("/nxzm/user/activation/*", "anon");
+        map.put("/nxzm/user/register", "anon");
+        map.put("/nxzm/user/logout", "logout");
 
 
         //如果必须要登陆
-        map.put("/nxzm/**", "user");
+        map.put("/nxzm/**", "authc");
+        map.put("/shone/**", "authc");
+
+
 
 //        //如果设置记住我
 //        map.put("/**", "anon");

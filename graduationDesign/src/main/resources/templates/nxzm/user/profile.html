@@ -1,0 +1,188 @@
+<!--&lt;!&ndash; 上传图片 &ndash;&gt;-->
+<!--<link th:href="${'/css/fileinput.min.css'}" rel="stylesheet">-->
+<!--&lt;!&ndash; 上传图片 &ndash;&gt;-->
+<!--<script th:src="${'/js/fileinput.min.js'}" type="text/javascript"></script>-->
+<main class="ftdms-layout-content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="edit-avatar">
+                            <img id="userImage" src="/images/user.png" alt="..." class="img-avatar">
+                            <div class="avatar-divider"></div>
+                            <div class="edit-avatar-content">
+
+<!--                                th:action="@{/shone/userImg}"-->
+                                <form action="javascript:void (0)" method="post"
+                                      enctype="multipart/form-data">
+                                    <input type="hidden" name="userId" th:value="${session.UserInfo.userId}">
+                                    <input type="file" name="file" id="userimg"
+                                           accept="image/png, image/jpeg, image/jpg">
+                                    <button type="button" id="uploadUserImg">上传头像</button>
+                                </form>
+                                <div id="showImage"></div>
+                                <div id="onLoadImage"></div>
+                            </div>
+                        </div>
+                        <hr>
+                        <form method="post" action="#!" class="site-form">
+                            <div class="form-group">
+                                <label for="username">用户名</label>
+                                <input type="text" class="form-control" name="username" id="userName"
+                                       th:value="${session.UserInfo.userName}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">电话</label>
+                                <input type="text" class="form-control" name="phone" id="phone"
+                                       th:value="${session.UserInfo.phone}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="text" class="form-control" name="email" id="email"
+                                       th:value="${session.UserInfo.email}">
+                            </div>
+                            <div class="form-group">
+                                <label for="receiveAddress">收货地址</label>
+                                <input type="text" class="form-control" name="receiveAddress" id="receiveAddress"
+                                       th:value="${session.UserInfo.receiveAddress}">
+                            </div>
+                            <button type="button" id="updateprofile" class="btn btn-primary">确认修改个人信息</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            // //初始化性别
+            // if($("#usersex").val()=="1"){
+            //     $("input[name='sex'][value='nan']").prop("checked",true);
+            // }else {
+            //     $("input[name='sex'][value='nv']").prop("checked",true);
+            // }
+            var user = {};
+            user.userId = $("input[name='userId']").val();
+            // console.log(user)
+            $.ajax({
+                url: "/shone/user/" + user.userId,
+                type: "post",
+                data: JSON.stringify(user),
+                success: function (data) {
+
+                    if (data.object.image != null) {
+                        console.log(data);
+                        console.log(data.object.image);
+
+                        $("#userImage").attr("src", "/upload/userimg/" + data.object.image);
+                    } else {
+
+                    }
+                }
+
+            })
+        });
+        $("#uploadUserImg").on('click',function () {
+
+            var formData = new FormData();
+            formData.append("file", $("#userimg")[0].files[0]);
+            formData.append("userId",$("input[name='userId']").val())
+            $.ajax({
+                type: "POST", //因为是传输文件，所以必须是post
+                url: '/shone/userImg', //对应的后台处理类的地址
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert("头像修改成功，请刷新页面！");
+                }
+            });
+        })
+
+        //检查图片
+        $("#userimg").change(function () {
+            var fileName = $("#userimg").val();
+            fileName = fileName.replace("D:\\upload\\", "");
+            var flag = true;
+            if (fileName == "") {
+                flag = false;
+                alert("请选择图片");
+            } else {
+                var size = $("#userimg")[0].files[0].size;
+                if (size / 1000 > 1024) {
+                    flag = false;
+                    alert("图片大小不能超过1MB");
+                }
+            }
+            if (flag) {
+                onLoadImage();
+            } else {//清除input type=file的显示内容
+                $("#userimg").val("");
+            }
+            return flag;
+        })
+
+        //预览图片
+        function onLoadImage() {
+            var file = $('#userimg').get(0).files[0];
+            var reader = new FileReader();
+            //将文件以Data URL形式读入页面
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                //显示文件
+                $("#userImage").attr("src", this.result);
+            }
+        }
+
+        //修改其他信息
+        $("#updateprofile").on("click", function () {
+            var user = {};
+            user.userId = $("input[name='userId']").val();
+            user.userName = $("#userName").val();
+            user.phone = $("#phone").val();
+            user.email = $("#email").val();
+            user.receiveAddress = $("#receiveAddress").val();
+            console.log(user.email);
+            var temp = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+            if (temp.test(user.email)) {
+
+            } else {
+                return;
+            }
+
+            var fff = confirm("确认修改信息？");
+            if (fff) {
+                $.ajax({
+                    url: "/shone/user",
+                    type: "put",
+                    contentType: "application/json",
+                    data: JSON.stringify(user),
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            alert("修改成功！");
+                        } else {
+                            alert("修改失败！");
+                        }
+
+                    }
+                })
+            } else {
+                return;
+            }
+
+
+        })
+
+
+    </script>
+
+</main>
