@@ -32,5 +32,6 @@ public interface USerRoleDao {
 
     //插入权限
     @Insert("insert into user_role (u_id,r_id) values(#{userId},#{roleId})")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int insertRole(@RequestParam("userId") int userId,@RequestParam("roleId") int roleId);
 }

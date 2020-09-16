@@ -43,7 +43,13 @@
             <div th:replace="fragments/top"></div>
 
         <!--页面主要内容-->
+        <div th:if="${template}">
             <div th:replace="${template}"></div>
+        </div>
+<!--        <div th:fragment="${template}">-->
+<!--            <div th:replace="${template}"></div>-->
+<!--        </div>-->
+
     </div>
 </div>
 
