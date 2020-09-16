@@ -7,41 +7,65 @@ import java.io.Serializable;
  * (Product)实体类
  *
  * @author makejava
- * @since 2020-09-13 14:46:44
+ * @since 2020-09-16 16:00:07
  */
 public class Product implements Serializable {
-    private static final long serialVersionUID = 514622190976678602L;
-    
+    private static final long serialVersionUID = 110834648145703310L;
+
     private Integer productId;
-    
-    private String name;
-    
+
+    private String productName;
+
     private String description;
     /**
-    * 原价
-    */
+     * 原价
+     */
     private Double originalPrice;
     /**
-    * 现价
-    */
+     * 现价
+     */
     private Double promotePrice;
     /**
-    * 库存
-    */
+     * 库存
+     */
     private Integer stock;
-    
-    private String mainimage;
-    /**
-    * 商品类型
-    */
-    private String productType;
-    /**
-    * 是否在售
-    */
-    private String productStatus;
-    
-    private Date createtime;
 
+    private String mainImage;
+    /**
+     * 商品类型
+     */
+    private Integer productType;
+    /**
+     * 是否在售
+     */
+    private String productStatus;
+
+    private Date createtime;
+    /**
+     * 品牌id
+     */
+    private Integer bId;
+
+    //品牌
+    private Brand brand;
+    //种类
+    private Category category;
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Integer getProductId() {
         return productId;
@@ -51,12 +75,12 @@ public class Product implements Serializable {
         this.productId = productId;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getDescription() {
@@ -91,19 +115,19 @@ public class Product implements Serializable {
         this.stock = stock;
     }
 
-    public String getMainimage() {
-        return mainimage;
+    public String getMainImage() {
+        return mainImage;
     }
 
-    public void setMainimage(String mainimage) {
-        this.mainimage = mainimage;
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
     }
 
-    public String getProductType() {
+    public Integer getProductType() {
         return productType;
     }
 
-    public void setProductType(String productType) {
+    public void setProductType(Integer productType) {
         this.productType = productType;
     }
 
@@ -123,4 +147,30 @@ public class Product implements Serializable {
         this.createtime = createtime;
     }
 
+    public Integer getbId() {
+        return bId;
+    }
+
+    public void setbId(Integer bId) {
+        this.bId = bId;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", description='" + description + '\'' +
+                ", originalPrice=" + originalPrice +
+                ", promotePrice=" + promotePrice +
+                ", stock=" + stock +
+                ", mainImage='" + mainImage + '\'' +
+                ", productType='" + productType + '\'' +
+                ", productStatus='" + productStatus + '\'' +
+                ", createtime=" + createtime +
+                ", bId=" + bId +
+                ", brand=" + brand +
+                ", category=" + category +
+                '}';
+    }
 }

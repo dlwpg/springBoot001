@@ -104,4 +104,14 @@ public class AccoutntController {
         return "index";
     }
 
+//    ==================product===============
+
+    /**
+     * 127.0.0.1/nxzm/product/products   ==get
+     */
+    @GetMapping("/product/products")
+    public String products() {
+        return "index";
+    }
+
 }
