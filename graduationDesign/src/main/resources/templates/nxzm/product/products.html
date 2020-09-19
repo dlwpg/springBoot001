@@ -56,7 +56,7 @@
                     <div class="card-header">
                         <h2>商品信息列表</h2>
                         <button type="button" class="btn btn-primary"
-                                style="float: right" id="initUserAddbtn">添加商品
+                                style="float: right" id="initProductAddbtn">添加商品
                         </button>
                     </div>
                     <div class="card-body">
@@ -82,8 +82,9 @@
                             </tbody>
                         </table>
 
-                        <!--                        <div th:replace="nxzm/product/productAdd"></div>-->
-                        <!--                        <div th:replace="nxzm/product/productEdit"></div>-->
+                        <div th:replace="nxzm/product/productAdd"></div>
+                        <div th:replace="nxzm/product/productEdit"></div>
+                        <div th:replace="nxzm/product/productOtherImgAdd"></div>
                     </div>
 
                 </div>
@@ -189,7 +190,7 @@
                 {data: 'category', name: "product_type", sortable: false},
                 {data: 'productStatus', name: "product_status", sortable: true},
                 {data: 'band', name: "b_id", sortable: false},
-                {data: 'operate', width: '157px', sortable: false}
+                {data: 'operate', width: '200px', sortable: false}
             ]
         });
 
@@ -206,182 +207,263 @@
         this.originalPrice = originalPrice;
         this.promotePrice = promotePrice;
         this.stock = stock;
-        this.mainImage = "<img width='50px' title='加载中...' height='50px' src='/upload/product/"+mainImage+"'>";
+        this.mainImage = "<img width='50px' title='加载中...' height='50px' src='" + mainImage + "'>";
         // this.mainImage = mainImage;
         this.category = productType;
         this.productStatus = productStatus;
         this.band = band;
         this.operate = function () {
-            return "<a href='#' class='btn btn-yellow' id='editUserBtn' " +
+            return "<a href='javascript:void(0);' class='btn btn-yellow' id='editUserBtn' " +
                 "onclick='initproductModal(\"" + productId + "\")'>编辑</a>&nbsp;" +
-                "<a href='javascript:void(0);' onclick='deleteUser(\"" + productId + "\")' " +
-                " class='btn btn-warning'>启停用</a>&nbsp;"
-                ;
+                "<a href='javascript:void(0);' onclick='updatestatus(\"" + productId + "\")' " +
+                " class='btn btn-warning'>状态</a>&nbsp;" +
+                "<a href='javascript:void(0);' onclick='addProductOthersImgModel(\"" + productId + "\")' " +
+                " class='btn btn-info'>附图</a>&nbsp;";
         }
     }
 
-    // //添加用户模态框
-    // $("#initUserAddbtn").on("click", function initAddModal() {
-    //     $("#userName").val("");
-    //     $("#passWord").val("");
-    //     $("#email").val("");
-    //     $("#userAddModel").modal('show');
-    //     $("#rUserAddBtn").on("click", function () {
-    //         addUser();
-    //     })
-    // });
-    //
-    // //重置密码
-    // function resetpassword(userId) {
-    //     var sss=confirm("确认重置密码？重置前请和用户沟通！");
-    //     if (sss){
-    //     $.ajax({
-    //         url: "/shone/password/" + userId,
-    //         type: "put",
-    //         success: function () {
-    //             alert("密码重置成功！")
-    //         },
-    //         error:function () {
-    //             layer.alert("系统异常，请稍后重试！", {icon: 0});
-    //         }
-    //
-    //     });
-    // }
-    // }
-    //
-    // //添加用户
-    // function addUser() {
-    //     var user = {};
-    //     //获取值
-    //     user.userName = $("#userName").val();
-    //     user.passWord = $("#passWord").val();
-    //     user.email = $("#email").val();
-    //     var sexvalue = $("input[name='sex']:checked").val();
-    //     if (sexvalue == '1') {
-    //         user.sex = "男"
-    //     } else {
-    //         user.sex = "女"
-    //     }
-    //
-    //     $.ajax({
-    //         url: "/shone/register",
-    //         type: "post",
-    //         contentType: "application/json",
-    //         data: JSON.stringify(user),
-    //         dataType: "json",
-    //         success: function () {
-    //             alert("添加成功，请让用户邮箱激活！");
-    //             // initUserTable(DEFAULT_PAGE_SIZE);
-    //         }
-    //     })
-    // };
-    //
-    //
-    // function initRoles() {
-    //     $("#editRoles").html("");
-    //     $.ajax({
-    //         url: "/shone/roles",
-    //         type: "post",
-    //         dataType: "json",
-    //         success: function (data) {
-    //             console.log(data);
-    //             var rolesDiv = $("#editRoles");
-    //             $.each(data, function (i, item) {
-    //                 rolesDiv.append("<input type='checkbox' value='"
-    //                     + item.roleId + " ' name='rolecheck'/>" + item.name + " ");
-    //             });
-    //
-    //         }
-    //     })
-    //
-    // }
-    //
-    // //修改用户信息模态框
-    // function initEditModal(userId) {
-    //     //获取所有权限
-    //     initRoles();
-    //     //获取用户拥有的所有信息
-    //     $.ajax({
-    //         url: "/shone/roles/" + userId,
-    //         type: "post",
-    //         dataType: "json",
-    //         success: function (data) {
-    //             // console.log(data);
-    //             $("#editUserId").val(userId)
-    //             $("#editUserName").val(data.object.userName);
-    //             $("#editPhone").val(data.object.phone);
-    //             $("#editEmail").val(data.object.email);
-    //             $("#editReceiveAddress").val(data.object.editReceiveAddress);
-    //             $.each(data.object.userRoles, function (i, item) {
-    //                 // console.log(item);
-    //                 $.each($("input[name='rolecheck']"), function (a, b) {
-    //                     if (b.value == item.roleId) {
-    //                         console.log(111);
-    //                         $(this).prop("checked", "checked");
-    //                     }
-    //                 })
-    //             })
-    //
-    //         }
-    //     })
-    //     $("#userEditModel").modal('show')
-    // }
-    //
-    // $("#rUserEditBtn").on('click', function () {
-    //     var userId = $("#editUserId").val();
-    //     editUser(userId);
-    // })
-    //
-    // function editUser(userId) {
-    //     var user = {};
-    //     user.userId = userId;
-    //     user.userName = $("#editUserName").val();
-    //     user.phone = $("#editPhone").val();
-    //     user.email = $("#editEmail").val();
-    //     user.receiveAddress = $("#editReceiveAddress").val();
-    //     var roles = [];
-    //     $.each($("input[name='rolecheck']:checked"), function () {
-    //         var role = {};
-    //         role.roleId = $(this).val();
-    //         roles.push(role);
-    //     });
-    //     user.userRoles = roles;
-    //
-    //     $.ajax({
-    //         url: "/shone/a_user",
-    //         type: "put",
-    //         contentType: "application/json",
-    //         data: JSON.stringify(user),
-    //         success: function (rs) {
-    //             if (rs.status == 200) {
-    //                 initUserTable(DEFAULT_PAGE_SIZE);
-    //                 layer.alert("修改成功", {icon: 1});
-    //             } else {
-    //                 layer.alert(rs.messgae, {icon: 0});
-    //             }
-    //         },
-    //         error: function (data) {
-    //             layer.alert(data.responseText, {icon: 0});
-    //         }
-    //     });
-    // }
-    //
-    //
-    // //删除用户
-    // function deleteUser(userId) {
-    //     var sss=confirm("确认删除此用户？");
-    //     if (sss){
-    //         $.ajax({
-    //             url: "/shone/user/" + userId,
-    //             type: "delete",
-    //             success: function () {
-    //                 alert("用户删除成功！")
-    //             },
-    //             error: function () {
-    //                 layer.alert("系统异常，请稍后重试！", {icon: 0});
-    //             }
-    //
-    //         });
-    //     }
-    // }
+    //添加用户模态框
+    $("#initProductAddbtn").on("click", function initAddModal() {
+        $("#productName").val("");
+        $("#description").val("");
+        $("#originalPrice").val("");
+        $("#promotePrice").val("");
+        $("#stock").val("");
+        $("#showImage").html("");
+        $("#mainImage").val("");
+        $("#category").val("");
+        $("#brand").val("");
+
+        $("#productAddModel").modal('show');
+
+    });
+
+
+    //获取图片路径===添加
+    $("#upload_product_main_img").on("click", function () {
+
+        var formData = new FormData();
+        formData.append("file", $("#mainImage")[0].files[0]);
+        //获取图片位置
+        $.ajax({
+            url: "/shone/product/product_main_img",
+            type: "post",
+            contentType: "multipart/form-data",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (path) {
+                console.log(path.object);
+                $("#hidden_main_img").val(path.object);
+                alert("上传成功！");
+            }
+        })
+    });
+
+
+    //获取图片路径===修改
+    $("#upload_product_main_img_e").on("click", function () {
+
+        var formData = new FormData();
+        formData.append("file", $("#mainImage_e")[0].files[0]);
+        //获取图片位置
+        $.ajax({
+            url: "/shone/product/product_main_img",
+            type: "post",
+            contentType: "multipart/form-data",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (path) {
+                console.log(path.object);
+                $("#hidden_main_img_e").val(path.object);
+                alert("上传成功！")
+            }
+        })
+    });
+
+    //添加按钮
+    $("#rProductAddBtn").on("click", function () {
+        addProduct();
+    })
+
+    //添加商品
+    function addProduct() {
+        var product = {};
+
+        //获取值
+        product.productName = $("#productName").val();
+        product.description = $("#description").val();
+        product.originalPrice = $("#originalPrice").val();
+        product.promotePrice = $("#promotePrice").val();
+        product.stock = $("#stock").val();
+        var selectvalue = $("select[name='productStatus']:selected").val();
+        if (selectvalue == "1") {
+            product.productStatus = "在售";
+        } else {
+            product.productStatus = "停售";
+        }
+        product.mainImage = $("#hidden_main_img").val();
+        var category = {}
+        category.name = $("#category").val();
+        product.category = category;
+        var brand = {}
+        brand.brandName = $("#brand").val();
+        product.brand = brand;
+
+        if (product.productName == null || product.productName == "") {
+            return;
+        }
+
+        $.ajax({
+            url: "/shone/product/product",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify(product),
+            dataType: "json",
+            success: function () {
+                layer.alert("添加成功", {icon: 1});
+                initProductTable(DEFAULT_PAGE_SIZE);
+                $("#productAddModel").modal("hidden");
+            },
+            error: function () {
+                layer.alert("添加失败", {icon: 2});
+            }
+        })
+    };
+
+
+    //修改商品信息模态框
+    function initproductModal(productId) {
+        $("#mainImage_e").val("");
+        //获取商品拥有的所有信息
+        $.ajax({
+            url: "/shone/product/product/" + productId,
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#editProductId").val(productId)
+                $("#productName_e").val(data.object.productName);
+                $("#description_e").val(data.object.description);
+                $("#originalPrice_e").val(data.object.originalPrice);
+                $("#promotePrice_e").val(data.object.promotePrice);
+                $("#stock_e").val(data.object.stock);
+                if (data.object.productStatus == "在售") {
+                    $("#productStatus_e option[value='1']").prop("selected", true);
+                } else {
+                    $("#productStatus_e option[value='0']").prop("selected", true);
+                }
+                $("#showImage_e").html("<img style='width: 100px;height: 100px' src='" + data.object.mainImage + "'>");
+                $("#category_e").val(data.object.category.name);
+                $("#brand_e").val(data.object.brand.brandName);
+
+            }
+        })
+        $("#productEditModel").modal('show')
+    }
+
+
+    $("#rProductEditBtn").on('click', function () {
+        editProduct();
+    })
+
+
+    function editProduct() {
+        var product = {};
+
+        //获取值
+        product.productId = $("#editProductId").val();
+        product.productName = $("#productName_e").val();
+        product.description = $("#description_e").val();
+        product.originalPrice = $("#originalPrice_e").val();
+        product.promotePrice = $("#promotePrice_e").val();
+        product.stock = $("#stock_e").val();
+        var selectvalue = $("select[name='productStatus_e']:selected").val();
+        if (selectvalue == "1") {
+            product.productStatus = "在售";
+        } else {
+            product.productStatus = "停售";
+        }
+        product.mainImage = $("#hidden_main_img_e").val();
+        var category = {}
+        category.name = $("#category_e").val();
+        product.category = category;
+        var brand = {}
+        brand.brandName = $("#brand_e").val();
+        product.brand = brand;
+
+        if (product.productName == null || product.productName == "") {
+            return;
+        }
+
+        $.ajax({
+            url: "/shone/product/product",
+            type: "put",
+            contentType: "application/json",
+            data: JSON.stringify(product),
+            dataType: "json",
+            success: function () {
+                layer.alert("修改成功", {icon: 1});
+                initProductTable(DEFAULT_PAGE_SIZE);
+                $("#productAddModel").modal("hidden");
+            },
+            error: function () {
+                layer.alert("修改失败", {icon: 2});
+            }
+        })
+    }
+
+
+    //修改状态
+    function updatestatus(productId) {
+        $.ajax({
+            url: "/shone/product/product/" + productId,
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                var sss = confirm("确认修改商品状态？");
+                if (sss) {
+                    if (data.object.productStatus == "在售") {
+                        $.ajax({
+                            url: "/shone/product/product_status?productId=" + productId + "&status=1",
+                            type: "put",
+                            success: function () {
+                                layer.alert("已停售。", {icon: 0});
+                                initProductTable(DEFAULT_PAGE_SIZE);
+                            }
+                        })
+                    } else {
+                        $.ajax({
+                            url: "/shone/product/product_status?productId=" + productId + "&status=2",
+                            type: "put",
+                            success: function () {
+                                layer.alert("已在售。", {icon: 1});
+                                initProductTable(DEFAULT_PAGE_SIZE);
+                            }
+                        })
+                    }
+                }
+            },
+            error: function () {
+                layer.alert("系统异常，请稍后重试！", {icon: 0});
+            }
+
+        });
+
+    }
+
+    //弹出添加附图模态框
+    function addProductOthersImgModel(productId) {
+        $("#fu_Image_1").val("");
+        $("#fu_Image_2").val("");
+        $("#fu_Image_3").val("");
+        $("#show_futu_img_1").html("");
+        $("#show_futu_img_2").html("");
+        $("#show_futu_img_3").html("");
+        $("#product_other_img_product_id").val(productId);
+        $("#addProductOtherImgModel").modal("show");
+    }
 </script>

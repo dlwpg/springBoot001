@@ -114,4 +114,33 @@ public class AccoutntController {
         return "index";
     }
 
+    //    ==================brand===============
+
+    /**
+     * 127.0.0.1/nxzm/brand/brands   ==get
+     */
+    @GetMapping("/brand/brands")
+    public String brands() {
+        return "index";
+    }
+
+
+    //    ==================category===============
+
+    /**
+     * 127.0.0.1/nxzm/category/categories   ==get
+     */
+    @GetMapping("/category/categories")
+    public String categories() {
+        return "index";
+    }
+
+    //    ==================productimages===============
+    /**
+     * 127.0.0.1/nxzm/product_other_image/product_other_images   ==get
+     */
+    @GetMapping("/product_other_image/product_other_images")
+    public String otherimages() {
+        return "index";
+    }
 }

@@ -106,33 +106,61 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Result<String> uploadUserImg(MultipartFile file, String userId) {
-        //存入服务器upload文件夹
-        //String  path="E:\\idea\\springboot\\springBoot001\\graduationDesign\\src\\main\\resources\\static\\upload";
-        //定位到resource下
-        String path = null;
-        try {
-            path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/userimg";
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (file.isEmpty()) {
+            return new Result<String>(
+                    Result.Resultstatus.FAILD.status, "Please select img.");
         }
+        String relativePath = "";
+        String destFilePath = "";
         try {
-            //判断文件是否为空
-            //创建文件对象
-            File ff = new File("" + path + "/" + file.getOriginalFilename() + "");
-//                   判断服务器目录是否存在，不存在就创建目录
-            if (!ff.isDirectory()) {
-                ff.mkdirs();
+            String osName = System.getProperty("os.name");
+            if (osName.toLowerCase().startsWith("win")) {
+                destFilePath = resourceConfigBean.getLocationPathForWindows() + "userimg/" +
+                        file.getOriginalFilename();
+            } else {
+                destFilePath = resourceConfigBean.getLocationPathForLinux() + "userimg/"
+                        + file.getOriginalFilename();
             }
-            file.transferTo(ff);
+            relativePath = resourceConfigBean.getRelativePath() + "userimg/" +
+                    file.getOriginalFilename();
+            File destFile = new File(destFilePath);
+            //存入upload文件夹
+            file.transferTo(destFile);
 
         } catch (IOException e) {
             e.printStackTrace();
+            return new Result<String>(
+                    Result.Resultstatus.FAILD.status, "Upload failed.");
         }
 
+//        System.err.println(relativePath);
+//        return new Result<String>(
+//                Result.Resultstatus.SUCCESS.status, "Upload success.", relativePath);
+//        String path = null;
+//        try {
+//            path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/userimg";
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            //判断文件是否为空
+//            //创建文件对象
+//            File ff = new File("" + path + "/" + file.getOriginalFilename() + "");
+////                   判断服务器目录是否存在，不存在就创建目录
+//            if (!ff.isDirectory()) {
+//                ff.mkdirs();
+//            }
+//            file.transferTo(ff);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
         //存虚拟路径到数据库
-        userDao.updateImg(file.getOriginalFilename(), userId);
+        userDao.updateImg(relativePath, userId);
         return new Result<String>(
-                Result.Resultstatus.SUCCESS.status, "Upload success.", file.getOriginalFilename());
+                Result.Resultstatus.SUCCESS.status, "Upload success.", relativePath);
+
     }
 
     @Override
@@ -225,6 +253,6 @@ public class UserServiceImpl implements UserService {
                 uSerRoleDao.insertRole(userId, item.getRoleId());
             });
             return new Result<>(Result.Resultstatus.SUCCESS.status, "修改成功");
-        }else return new Result<>(Result.Resultstatus.FAILD.status, "无效修改");
+        } else return new Result<>(Result.Resultstatus.FAILD.status, "无效修改");
     }
 }

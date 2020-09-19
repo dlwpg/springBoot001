@@ -40,7 +40,7 @@ public class Product implements Serializable {
      */
     private String productStatus;
 
-    private Date createtime;
+    private String  createtime;
     /**
      * 品牌id
      */
@@ -139,11 +139,11 @@ public class Product implements Serializable {
         this.productStatus = productStatus;
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
 

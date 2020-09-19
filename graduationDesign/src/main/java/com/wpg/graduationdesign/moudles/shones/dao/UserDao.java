@@ -20,6 +20,7 @@ public interface UserDao {
     //注册
     @Insert("insert into user (username,password,sex,email,status) values(#{userName},#{passWord},#{sex},#{email},#{status})")
     @Options(useGeneratedKeys = true, keyColumn = "userid", keyProperty = "userId")
+    //必须传对象才能回填
     int registerUser(User user);
 
     //激活

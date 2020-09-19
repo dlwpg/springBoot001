@@ -10,12 +10,23 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @AutoConfigureAfter({WebMvcAutoConfiguration.class})
 public class WebConfig implements WebMvcConfigurer {
+    @Value("${spring.resource.path}")
+    private String relativePath;
+    @Value("${spring.resource.path.pattern}")
+    private String relativePathPattern;
+    @Value("${spring.resource.folder.windows}")
+    private String locationPathForWindows;
+    @Value("${spring.resource.folder.linux}")
+    private String relativePathForLinux;
+
     @Value("${server.http.port}")
     private int httpport;
 
@@ -42,4 +53,22 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestViewIntercepter).addPathPatterns("/**");
     }
+
+
+    //文件的不同系统上传下载
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        //判断不同系统
+        String osName = System.getProperty("os.name");
+        if (osName.toLowerCase().startsWith("win")) {
+            registry.addResourceHandler(relativePathPattern)
+                    .addResourceLocations(ResourceUtils.FILE_URL_PREFIX
+                            + locationPathForWindows);
+        }
+        registry.addResourceHandler(relativePathPattern)
+                .addResourceLocations(ResourceUtils.FILE_URL_PREFIX
+                        + locationPathForWindows);
+    }
+
 }
