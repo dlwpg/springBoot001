@@ -80,7 +80,7 @@ public class ShiroConfig {
         map.put("/nxzm/user/register", "anon");
         map.put("/nxzm/user/logout", "logout");
 
-//        map.put("/shone/brand/brands", "anon");
+        map.put("/shone/review/reviews", "anon");
 
         //如果必须要登陆
         map.put("/nxzm/**", "authc");

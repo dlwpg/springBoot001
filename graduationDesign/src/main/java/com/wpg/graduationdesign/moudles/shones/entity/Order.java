@@ -53,7 +53,7 @@ public class Order implements Serializable {
     /**
     * 商品类型
     */
-    private String orderProductType;
+    private Integer orderProductType;
     /**
     * 产品单价
     */
@@ -89,6 +89,26 @@ public class Order implements Serializable {
     */
     private Integer orderBackMoneyStatus;
 
+    //电话
+    private String userPhone;
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Integer getOrderId() {
         return orderId;
@@ -178,11 +198,11 @@ public class Order implements Serializable {
         this.orderProductImage = orderProductImage;
     }
 
-    public String getOrderProductType() {
+    public Integer getOrderProductType() {
         return orderProductType;
     }
 
-    public void setOrderProductType(String orderProductType) {
+    public void setOrderProductType(Integer orderProductType) {
         this.orderProductType = orderProductType;
     }
 
@@ -258,4 +278,31 @@ public class Order implements Serializable {
         this.orderBackMoneyStatus = orderBackMoneyStatus;
     }
 
+    @Override
+    public String
+    toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", orderProductId=" + orderProductId +
+                ", orderProductNumbers=" + orderProductNumbers +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", orderProductName='" + orderProductName + '\'' +
+                ", orderProductTotalPrice=" + orderProductTotalPrice +
+                ", courierServicesCompany='" + courierServicesCompany + '\'' +
+                ", orderAddress='" + orderAddress + '\'' +
+                ", orderUserName='" + orderUserName + '\'' +
+                ", orderTradingTimeDetail='" + orderTradingTimeDetail + '\'' +
+                ", orderProductImage='" + orderProductImage + '\'' +
+                ", orderProductType='" + orderProductType + '\'' +
+                ", orderProductPrice=" + orderProductPrice +
+                ", orderPaymentStatus='" + orderPaymentStatus + '\'' +
+                ", orderSendStatus=" + orderSendStatus +
+                ", orderConfirmStatus=" + orderConfirmStatus +
+                ", orderCommentStatus=" + orderCommentStatus +
+                ", orderProvince='" + orderProvince + '\'' +
+                ", orderTradingTimeYear='" + orderTradingTimeYear + '\'' +
+                ", orderStatus=" + orderStatus +
+                ", orderBackMoneyStatus=" + orderBackMoneyStatus +
+                '}';
+    }
 }

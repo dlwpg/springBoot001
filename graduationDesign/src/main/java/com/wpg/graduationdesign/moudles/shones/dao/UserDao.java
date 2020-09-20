@@ -17,6 +17,10 @@ public interface UserDao {
     @Select("select * from user where username=#{userName}")
     User loginByUser(String userName);
 
+    //通过id查找
+    @Select("select * from user where userid=#{userId}")
+    User selectUserByUserId(int userId);
+
     //注册
     @Insert("insert into user (username,password,sex,email,status) values(#{userName},#{passWord},#{sex},#{email},#{status})")
     @Options(useGeneratedKeys = true, keyColumn = "userid", keyProperty = "userId")
