@@ -82,6 +82,15 @@ public class ShiroConfig {
 
         map.put("/shone/review/reviews", "anon");
 
+
+        //前台路径
+        map.put("/nxzmqt/mainpage", "anon");
+        map.put("/qtjtwj/**", "anon");
+
+
+
+
+
         //如果必须要登陆
         map.put("/nxzm/**", "authc");
         map.put("/shone/**", "authc");

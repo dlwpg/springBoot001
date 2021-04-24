@@ -18,7 +18,7 @@ public class UserRole implements Serializable {
     
     private Integer roleId;
 
-    private List roles;
+    private List<Role> roles;
 
     public Integer getId() {
         return id;
@@ -44,11 +44,21 @@ public class UserRole implements Serializable {
         this.roleId = roleId;
     }
 
-    public List getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRole{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", roleId=" + roleId +
+                ", roles=" + roles +
+                '}';
     }
 }

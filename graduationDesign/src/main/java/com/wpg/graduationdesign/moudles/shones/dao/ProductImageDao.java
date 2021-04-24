@@ -39,4 +39,7 @@ public interface ProductImageDao {
             + "</choose>"
             + "</script>")
     List<ProductImage> getProductImageBySearchVo(SearchVo searchVo);
-}
+    //修改pname通过product——id
+    @Update("update product_image set pname=#{pname} where pid=#{pid}")
+    int updateProduct_fu_ImageByproductId(@RequestParam("pname") String  pname,@RequestParam("pid") int pid);
+ }

@@ -18,6 +18,7 @@ import com.wpg.graduationdesign.vo.SearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -202,6 +203,9 @@ public class ProductServiceImpl implements ProductService {
 //        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 //        product.setCreatetime(df.format(new Date()));// new Date()为获取当前系统时间
 
+        //修改product_image表的pname
+        productImageDao.updateProduct_fu_ImageByproductId(product.getProductName(), product.getProductId());
+
         productDao.updateProdcutByProduct(product);
         return new Result<Product>(
                 Result.Resultstatus.SUCCESS.status, "update success。", product);
@@ -231,31 +235,98 @@ public class ProductServiceImpl implements ProductService {
     public Result<String> addProductOtherImg(int productId, String fu_img1, String fu_img2, String fu_img3) {
 
         List<ProductImage> select_productImagelist = productImageDao.getProductImageByProductId(productId);
-        String productname=productDao.selectProdcutNameByProductId(productId);
+        String productname = productDao.selectProdcutNameByProductId(productId);
         if (select_productImagelist == null) {
             if (fu_img1 != "") {
-                productImageDao.addProductOtherImg(productId,productname, fu_img1);
+                productImageDao.addProductOtherImg(productId, productname, fu_img1);
             }
             if (fu_img2 != "") {
-                productImageDao.addProductOtherImg(productId,productname, fu_img2);
+                productImageDao.addProductOtherImg(productId, productname, fu_img2);
             }
             if (fu_img3 != "") {
-                productImageDao.addProductOtherImg(productId,productname, fu_img3);
+                productImageDao.addProductOtherImg(productId, productname, fu_img3);
             }
 
         } else {
             productImageDao.deleteProductImageByProductId(productId);
             if (fu_img1 != "") {
-                productImageDao.addProductOtherImg(productId,productname, fu_img1);
+                productImageDao.addProductOtherImg(productId, productname, fu_img1);
             }
             if (fu_img2 != "") {
-                productImageDao.addProductOtherImg(productId,productname, fu_img2);
+                productImageDao.addProductOtherImg(productId, productname, fu_img2);
             }
             if (fu_img3 != "") {
-                productImageDao.addProductOtherImg(productId,productname, fu_img3);
+                productImageDao.addProductOtherImg(productId, productname, fu_img3);
             }
         }
 
         return new Result<>(Result.Resultstatus.SUCCESS.status, "insert success.");
+    }
+
+
+    /**
+     * 通过种类获取商品信息
+     *
+     * @param categoryId id
+     * @return list
+     */
+    @Override
+    public Result<List<Product>> getProductList(Integer categoryId, String keywords) {
+        if (StringUtils.isEmpty(keywords)) {
+            return new Result<>(Result.Resultstatus.SUCCESS.status
+                    , "获取商品信息成功"
+                    , productDao.getProductList(categoryId));
+        } else {
+            return new Result<>(Result.Resultstatus.SUCCESS.status
+                    , "获取商品信息成功"
+                    , productDao.getProductLists(categoryId, keywords));
+        }
+    }
+
+    /**
+     * 通过商品id获取商品信息
+     *
+     * @param productId id
+     * @return list
+     */
+    @Override
+    public Result<Product> getProductInfo(Integer productId) {
+        return new Result<>(Result.Resultstatus.SUCCESS.status
+                , "获取商品信息成功"
+                , productDao.getProductInfo(productId));
+    }
+
+    /**
+     * 通过商品id获取商品其他图片
+     *
+     * @param productId id
+     * @return list
+     */
+    @Override
+    public Result<List<ProductImage>> getProductImages(Integer productId) {
+        return new Result<>(Result.Resultstatus.SUCCESS.status
+                , "获取商品信息成功"
+                , productDao.getProductImages(productId));
+    }
+
+    @Override
+    public Boolean stockReduce(Integer pId, Integer num) {
+        Product productInfo = productDao.getProductInfo(pId);
+        Integer stock = productInfo.getStock() - num;
+        return productDao.stockReduce(pId, stock);
+    }
+
+    @Override
+    public Boolean stockAdd(Integer pId, Integer num) {
+        Product productInfo = productDao.getProductInfo(pId);
+        Integer stock = productInfo.getStock() + num;
+        return productDao.stockAdd(pId, stock);
+    }
+
+    @Override
+    public Result<List<Product>> getProductsFor6() {
+        return new Result<>(Result.Resultstatus.SUCCESS.status
+                , "获取商品推荐信息成功"
+                , productDao.getProductsFor6());
     }
 }

@@ -218,7 +218,7 @@
     //重置密码
     function resetpassword(userId) {
         var sss=confirm("确认重置密码？重置前请和用户沟通！");
-        if (sss){
+            if (sss){
         $.ajax({
             url: "/shone/password/" + userId,
             type: "put",

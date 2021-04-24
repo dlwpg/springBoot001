@@ -8,15 +8,15 @@
     <div class="ftdms-layout-sidebar-scroll">
         <nav class="sidebar-main">
             <ul class="nav nav-drawer">
-                <li class="nav-item active"> <a href="/nxzm/user/mainpage"><i class="ftsucai-82"></i>后台首页</a> </li>
-                <li class="nav-item nav-item-has-subnav">
+                <li  class="nav-item active"> <a href="/nxzm/user/mainpage"><i class="ftsucai-82"></i>后台首页</a> </li>
+                <li shiro:hasRole="admin" class="nav-item nav-item-has-subnav">
                     <a href="javascript:void(0)"><i class="ftsucai-UI"></i> 管理员管理</a>
                     <ul class="nav nav-subnav">
                         <li> <a href="/nxzm/user/users">用户列表</a> </li>
                         <li> <a href="/nxzm/role/roles">权限列表</a> </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-item-has-subnav">
+                <li shiro:hasAnyRoles="admin,sales" class="nav-item nav-item-has-subnav">
                     <a href="javascript:void(0)"><i class="ftsucai-edit-2"></i> 产品管理</a>
                     <ul class="nav nav-subnav">
                         <li> <a href="/nxzm/product/products">产品列表</a> </li>
@@ -24,13 +24,13 @@
                         <li> <a href="/nxzm/category/categories">分类管理</a> </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-item-has-subnav">
+                <li shiro:hasAnyRoles="admin,sales" class="nav-item nav-item-has-subnav">
                     <a href="javascript:void(0)"><i class="ftsucai-19"></i> 图片管理</a>
                     <ul class="nav nav-subnav">
                         <li> <a href="/nxzm/product_other_image/product_other_images">商品图片信息</a> </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-item-has-subnav">
+                <li shiro:hasAnyRoles="admin,sales" class="nav-item nav-item-has-subnav">
                     <a href="javascript:void(0)"><i class="ftsucai-table"></i> 订单管理</a>
                     <ul class="nav nav-subnav">
                         <li> <a href="/nxzm/order/orders">订单管理</a> </li>
@@ -46,7 +46,7 @@
                         <li> <a href="/nxzm/order/orders_review_0">未评论商品</a> </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-item-has-subnav">
+                <li shiro:hasAnyRoles="admin,reviewer" class="nav-item nav-item-has-subnav">
                     <a href="javascript:void(0)"><i class="ftsucai-js"></i> 评论管理</a>
                     <ul class="nav nav-subnav">
                         <li> <a href="/nxzm/review/reviews">评价列表</a> </li>

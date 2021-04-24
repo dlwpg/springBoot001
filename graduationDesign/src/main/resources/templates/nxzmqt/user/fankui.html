@@ -1,0 +1,133 @@
+<!-- 搜索栏 -->
+<div class="top-search">
+    <div class="inner">
+        <a class="logo" href="index.html"><img src="/qtjtwj/images/nxzmqt.jpg" alt="U袋网" class="cover"></a>
+        <div class="search-box">
+            <form class="input-group">
+                <input placeholder="Ta们都在搜鞋运网" type="text">
+                <span class="input-group-btn">
+						<button type="button">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</span>
+            </form>
+        </div>
+        <div class="cart-box">
+            <a href="" class="cart-but">
+                <i class="iconfont icon-shopcart cr fz16"></i> 购物车 0 件
+            </a>
+        </div>
+    </div>
+</div>
+<!-- 内页导航栏 -->
+<div class="top-nav bg3">
+    <div class="nav-box inner">
+        <div class="all-cat">
+            <div class="title"><i class="iconfont icon-menu"></i> 全部分类</div>
+        </div>
+        <ul class="nva-list">
+            <a href="/nxzmqt/mainpage">
+                <li>首页</li>
+            </a>
+            <a href="/nxzmqt/temp_article/xyw_qiyejianjie">
+                <li>企业简介</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>新手上路</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>鞋运学堂</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>诚信合约</li>
+            </a>
+        </ul>
+    </div>
+</div>
+<div class="content inner">
+    <section class="panel__div clearfix">
+        <div class="filter-value">
+            <div class="filter-title">评价</div>
+        </div>
+        <form action="javascript:void (0)" class="issues-box form-horizontal">
+            <p>尊敬的用户：</p>
+            <p>您好！为了给您提供更好的服务，我们希望收集您使用鞋运网的看法或建议，对您的配合和支持表示衷心感谢！</p>
+
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <textarea id="pingjia" class="form-control" rows="5" placeholder="请输入您的看法或建议"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <select id="level">
+
+                        <option>-请选择-</option>
+
+                        <option value="0">差评</option>
+
+                        <option value="1">中评</option>
+
+                        <option value="2" selected  =  "selected">好评</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-5">
+                    <button id="tijiaoreview" class="btn btn-block btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+<script>
+    //路由参数
+    let userId = getQueryVariable().userId;
+    let orderNumber = getQueryVariable().orderNumber;
+    let pId = getQueryVariable().pId;
+
+    // console.log(orderId+" "+orderNumber+" "+pId)
+    function getQueryVariable() {
+        let href = window.location.href
+        let query = href.substring(href.indexOf('?') + 1);
+        let vars = query.split("&");
+        let obj = {}
+        for (var i = 0; i < vars.length; i++) {
+            let pair = vars[i].split("=");
+            obj[pair[0]] = pair[1]
+        }
+        return obj;
+    }
+
+
+    $("#tijiaoreview").click(function () {
+        let levels = $("#level option:selected").val();
+        let pingjia = $("#pingjia").val();
+        let review = {};
+        review.pid = pId;
+        review.uid = userId;
+        review.orderNumber = orderNumber;
+        review.content = pingjia;
+        review.contentLevel = Number(levels);
+        $.ajax({
+            url: "/shone_qt/save_review",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify(review),
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 200) {
+                    alert(data.message);
+                    window.location.href="/nxzmqt/user/wodedingdan";
+                }else {
+                    alert("评价失败，请稍后重试");
+                }
+            },
+            error: function () {
+                alert("服务异常");
+            }
+        });
+    });
+
+</script>

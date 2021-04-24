@@ -8,6 +8,8 @@ import com.wpg.graduationdesign.vo.SearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/shone")
 public class OrderController {
@@ -124,5 +126,55 @@ public class OrderController {
     @PutMapping(value = "/order/order",consumes = "application/json",produces = "application/json")
     public Result<Order> updateOrderByOrder(@RequestBody Order order){
         return orderService.updateOrderByOrder(order);
+    }
+
+    //每月销售额
+    @PostMapping("/order/orders_month")
+    public List<Order> getOrders_month(){
+        return orderService.getOrders_month();
+    }
+
+    //年度订单省份直观
+    @PostMapping("/order/orders_provence")
+    public List<Order> getOrders_Provence(){
+        return orderService.getOrders_Provence();
+    }
+
+    //年度订单版型
+    @PostMapping("/order/orders_types")
+    public List<Order> getOrders_Types(){
+        return orderService.getOrders_Types();
+    }
+
+    //今日订单金额
+    @PostMapping("/order/order_today_money")
+    public Order getOrder_Today_Money(){
+        return orderService.getOrder_Today_Money();
+    }
+
+    //昨日订单金额
+    @PostMapping("/order/order_yesterday_money")
+    public Order getOrder_Yesterday_Money(){
+        return orderService.getOrder_Yesterday_Money();
+    }
+
+
+    //本月订单金额
+    @PostMapping("/order/order_this_month_money")
+    public Order getOrder_This_Month_Money(){
+        return orderService.getOrder_This_Month_Money();
+    }
+
+
+    //本年度订单金额
+    @PostMapping("/order/order_this_year_money")
+    public Order getOrder_This_Year_Money(){
+        return orderService.getOrder_This_Year_Money();
+    }
+
+    //发货
+    @PutMapping("/send/{orderNumber}")
+    public Boolean sendGoods(@PathVariable("orderNumber") String orderNumber){
+        return orderService.sendGoods(orderNumber);
     }
 }

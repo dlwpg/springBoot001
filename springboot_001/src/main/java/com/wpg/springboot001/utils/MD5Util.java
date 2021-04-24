@@ -9,7 +9,7 @@ import org.springframework.util.DigestUtils;
  * @date: 2019年10月29日
  */
 public class MD5Util {
-	private static final String SALT = "&%5123***&&%%$$#@";
+	private static final String SALT = "hanzhupy520";
 	
 	public static String getMD5(String str) {
 		if (StringUtils.isBlank(str)) {
@@ -20,6 +20,6 @@ public class MD5Util {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(MD5Util.getMD5("111111"));
+		System.out.println(MD5Util.getMD5("123456"));
 	}
 }

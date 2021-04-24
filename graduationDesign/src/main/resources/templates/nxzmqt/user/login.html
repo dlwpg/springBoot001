@@ -1,0 +1,113 @@
+<div style="background:url(/qtjtwj/images/login_bj.jpg) no-repeat center center; ">
+    <div class="login-layout container">
+        <div class="form-box login">
+            <div class="tabs-nav">
+                <h3>欢迎登录鞋运网平台</h3>
+            </div>
+            <div class="tabs_container">
+                <form class="tabs_form" action="javascript:void (0);" method="post" id="login_form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                            </div>
+                            <input class="form-control phone" name="userName" id="login_phone" required
+                                   placeholder="用户名" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                            </div>
+                            <input class="form-control password" name="passWord" id="login_pwd" placeholder="请输入密码"
+                                   autocomplete="off" type="password">
+                            <div class="input-group-addon pwd-toggle" title="显示密码"><span
+                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></div>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input checked="" id="login_checkbox" type="checkbox"><i></i> 30天内免登录
+                        </label>
+                        <a href="javascript:void (0);" style="text-decoration: none" class="pull-right" id="">忘记密码？</a>
+                    </div>
+                    <!-- 提示错误信息 -->
+                    <div class="form-group">
+                        <div class="error_msg" id="login_error">
+                        </div>
+                    </div>
+                    <button class="btn btn-large btn-primary btn-lg btn-block submit"
+                            id="login_submit" type="button">登录
+                    </button>
+                    <br/>
+                    <p class="text-center">没有账号？<a href="/nxzmqt/user/register" style="text-decoration: none"
+                                                   id="register">免费注册</a></p>
+                </form>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                switch ($.getUrlParam('p')) {
+                    case 'register':
+                        $('.register').show();
+                        break;
+                    default:
+                        $('.login').show();
+                }
+                ;
+                // 确定按钮
+                $('.submit').click(function () {
+                    var form = $(this).parents('form')
+                    var phone = form.find('input.phone');
+                    var pwd = form.find('input.password');
+                    var error = form.find('.error_msg');
+                    // 验证用户名
+                    switch (phone.validatemobile()) {
+                        case 1:
+                            error.html(msgtemp('<strong>用户名为空</strong> 请输入用户名', 'alert-warning'));
+                            return;
+                            break;
+                    }
+                    // 验证密码复杂度
+                    switch (pwd.validatepwd()) {
+                        case 1:
+                            error.html(msgtemp('<strong>密码不能为空</strong> 请输入密码', 'alert-warning'));
+                            return;
+                            break;
+                        case 2:
+                            error.html(msgtemp('<strong>密码过短</strong> 请输入6位以上的密码', 'alert-warning'));
+                            return;
+                            break;
+                        case 3:
+                            error.html(msgtemp('<strong>密码过于简单</strong><br>密码需为字母、数字或特殊字符组合', 'alert-warning'));
+                            return;
+                            break;
+                    }
+
+                    //登录
+                    let user = {};
+                    user.userName = $("input[name='userName']").val();
+                    user.passWord = $("input[name='passWord']").val();
+                    $.ajax({
+                        url: "/shone_qt/login",
+                        type: "post",
+                        contentType: "application/json",
+                        data: JSON.stringify(user),
+                        dataType: "json",
+                        success: function (data) {
+
+                            if (data.status == 200) {
+                                window.location.href = "/nxzmqt/mainpage";
+                            } else {
+                                alert(data.message);
+                            }
+                        }
+
+                    })
+
+                })
+            });
+        </script>
+    </div>
+</div>

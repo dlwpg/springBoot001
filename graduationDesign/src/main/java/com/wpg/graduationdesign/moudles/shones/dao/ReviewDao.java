@@ -14,7 +14,7 @@ public interface ReviewDao {
             "select * from review "
             + "<where>"
             + "<if test='keyWord != \"\" and keyWord != null'>"
-            + " and (content like '%${keyWord}%') "
+            + " and (order_number like '%${keyWord}%') "
             + "</if>"
             + "</where>"
             + "<choose>"
@@ -44,4 +44,8 @@ public interface ReviewDao {
                     many = @Many(select = "com.wpg.graduationdesign.moudles.shones.dao.OrderDao.getOrderByOderNumber")),
     })
     List<Review> getReviewsBySearchVo(SearchVo searchVo);
+
+    @Insert("insert into review (order_number,uid,pid,content,content_level,createtime)" +
+            "values (#{orderNumber},#{uid},#{pid},#{content},#{contentLevel},#{createtime})")
+    Boolean saveReview(Review review);
 }

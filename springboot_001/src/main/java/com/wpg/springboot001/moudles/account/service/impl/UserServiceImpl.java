@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
     @Autowired
     private ResourceConfigBean resourceConfigBean;
+    private Subject subject;
 
     @Override
     @Transactional
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Result<User> selectUserByUserName(User user) {
 
-        Subject subject = SecurityUtils.getSubject();
+        subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUserName()
                 , MD5Util.getMD5(user.getPassword()));
 
@@ -164,6 +165,7 @@ public class UserServiceImpl implements UserService {
             relativePath = resourceConfigBean.getRelativePath() +
                     file.getOriginalFilename();
             File destFile = new File(destFilePath);
+            //存入upload文件夹
             file.transferTo(destFile);
 
         } catch (IOException e) {
@@ -186,7 +188,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userDao.updateUser(user);
-        Subject subject=SecurityUtils.getSubject();
+        subject=SecurityUtils.getSubject();
         Session session=subject.getSession();
         session.setAttribute("UserInfo", user);
 

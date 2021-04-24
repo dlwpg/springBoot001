@@ -1,0 +1,197 @@
+<!-- 搜索栏 -->
+<div class="top-search">
+    <div class="inner">
+        <a class="logo" href="../index.html"><img src="/qtjtwj/images/nxzmqt.jpg" alt="鞋运网" class="cover"></a>
+        <div class="search-box">
+            <form class="input-group">
+                <input placeholder="鞋运网" type="text">
+                <span class="input-group-btn">
+						<button type="button">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</span>
+            </form>
+        </div>
+        <div class="cart-box">
+            <a href="/nxzmqt/user/gouwuche" class="cart-but">
+                <i class="iconfont icon-shopcart cr fz16"></i> 购物车
+            </a>
+        </div>
+    </div>
+</div>
+<!-- 内页导航栏 -->
+<div class="top-nav bg3">
+    <div class="nav-box inner">
+        <div class="all-cat">
+            <div class="title"><i class="iconfont icon-menu"></i> 全部分类</div>
+        </div>
+        <ul class="nva-list">
+            <a href="/nxzmqt/mainpage">
+                <li>首页</li>
+            </a>
+            <a href="/nxzmqt/temp_article/xyw_qiyejianjie">
+                <li>企业简介</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>新手上路</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>鞋运学堂</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>诚信合约</li>
+            </a>
+        </ul>
+    </div>
+</div>
+<div class="content inner">
+    <section class="filter-section clearfix">
+        <ol class="breadcrumb">
+            <li><a href="index.html">首页</a></li>
+            <li class="active">男鞋专区</li>
+        </ol>
+        <div class="filter-box">
+            <div class="all-filter">
+                <div class="filter-value">
+                    <a href="Javascript:void (0)" id="lqxzc" class="sale-title active">篮球鞋专场</a>
+                    <a href="Javascript:void (0)" id="ydxzc" class="sale-title active">运动鞋专场</a>
+                    <a href="Javascript:void (0)" id="qtxlzc" class="sale-title active">其他鞋类专场</a>
+                    <div class="search-box" style="position: absolute;left: 600px;top: -36px">
+                        <form class="input-group">
+                            <input id="searchSaleProductValue" placeholder="Ta们都在搜de便宜好鞋" type="text">
+                            <span class="input-group-btn">
+						<button type="button" id="searchSaleProduct">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sort-box bgf5">
+            <div class="sort-text">排序：</div>
+            <a href="javascript:void (0);" id="jgpx">
+                <div class="sort-text">价格(升序) <i class="iconfont"></i></div>
+            </a>
+            <div id="spzs" class="sort-total pull-right"></div>
+        </div>
+    </section>
+    <section class="item-show__div clearfix">
+        <div class="pull-left">
+            <div id="shone_sale_div" class="item-list__area clearfix">
+            </div>
+        </div>
+        <div class="pull-right">
+            <div class="desc-segments__content">
+                <div class="lace-title">
+                    <span class="c6">热销推荐</span>
+                </div>
+                <div id="baokuantuijian" class="picked-box">
+                    <a href="javascript:void (0)" class="picked-item"><img src="/qtjtwj/images/floor_1.jpg" alt="" class="cover"><span
+                            class="look_price">¥169.88</span></a>
+                    <a href="javascript:void (0)" class="picked-item"><img src="/qtjtwj/images/floor_3.jpg" alt="" class="cover"><span
+                            class="look_price">¥99.99</span></a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        let CATEGORY_ID = 1;
+        let Flag = 1;
+        let Px=1;
+        $(document).ready(function () {
+            shone(CATEGORY_ID, "");
+        })
+
+        //搜索按钮
+        $("#searchSaleProduct").click(function () {
+            //清除页面缓存
+            $("#shone_sale_div").empty();
+            let searchSaleProductValue = $("#searchSaleProductValue").val();
+            switch (Flag) {
+                case 1:
+                    shone(1, searchSaleProductValue);
+                    break;
+                case 2:
+                    shone(2, searchSaleProductValue);
+                    break;
+                case 3:
+                    shone(3, searchSaleProductValue);
+                    break;
+            }
+        });
+
+        //篮球鞋
+        $("#lqxzc").click(function () {
+            $("#shone_sale_div").empty();
+            let searchSaleProductValue = $("#searchSaleProductValue").val();
+            CATEGORY_ID = 1;
+            Flag = 1;
+            shone(CATEGORY_ID, searchSaleProductValue);
+        });
+
+        //运动鞋
+        $("#ydxzc").click(function () {
+            $("#shone_sale_div").empty();
+            let searchSaleProductValue = $("#searchSaleProductValue").val();
+            CATEGORY_ID = 2;
+            Flag = 2;
+            shone(CATEGORY_ID, searchSaleProductValue);
+        });
+
+        //其他鞋
+        $("#qtxlzc").click(function () {
+            $("#shone_sale_div").empty();
+            let searchSaleProductValue = $("#searchSaleProductValue").val();
+            CATEGORY_ID = 3;
+            Flag = 3;
+            shone(CATEGORY_ID, searchSaleProductValue);
+        });
+
+        function shone(categoryId, searchSaleProductValue) {
+            $.ajax({
+                url: "/shone_qt/sale/shone?categoryId=" + categoryId + "&keywords=" + searchSaleProductValue,
+                type: "get",
+                contentType: "application/json",
+                data: "json",
+                success: function (data) {
+                    console.log(data.object);
+                    if (data.status == 200) {
+                        let len = data.object.length;
+                        if (len == 0) {
+                            $("#shone_sale_div").append("<h1>小吴正在努力备货中。。。</h1>")
+                        } else {
+                            $("#spzs").empty();
+                            $("#spzs").append("共 " + len + " 个商品");
+                            for (let i = 0; i < len; i++) {
+                                $("#shone_sale_div").append(
+                                    "<div class=\"item-card\">\n" +
+                                    "<a href=\"/nxzmqt/sale/shone_show?id="+data.object[i].productId+"\" class=\"photo\">\n" +
+                                    "<img src=\"" + data.object[i].mainImage + "\" alt=\"" + data.object[i].productName + "\" class=\"cover\">\n" +
+                                    "<div class=\"name\">" + data.object[i].description + "</div></a>\n" +
+                                    "<div class=\"middle\">\n" +
+                                    "<div class=\"price\"><small>￥</small>" + data.object[i].promotePrice + "&nbsp;&nbsp;<s>￥"+data.object[i].originalPrice+"</s></div>\n" +
+                                    "<div class=\"sale no-hide\">" + data.object[i].productName + "</div>\n" +
+                                    "</div>\n" +
+                                    "<div class=\"buttom\">\n" +
+                                    "<div>销量 <b>666+</b></div>\n" +
+                                    "<div>人气 <b>888+</b></div>\n" +
+                                    " <div>评论 <b>999+</b></div>\n" +
+                                    "</div>\n" +
+                                    "</div>"
+                                )
+                            }
+                        }
+                    } else {
+                        alert("请求超时");
+                    }
+                },
+                error: function (data) {
+                    alert("服务异常");
+                }
+            })
+        }
+    </script>
+</div>

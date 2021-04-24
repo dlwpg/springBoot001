@@ -255,8 +255,11 @@
             dataType: "json",
             success: function (path) {
                 console.log(path.object);
+                if (path.status==200){
+                    alert("上传成功！");
+                }
                 $("#hidden_main_img").val(path.object);
-                alert("上传成功！");
+
             }
         })
     });
@@ -277,9 +280,11 @@
             contentType: false,
             dataType: "json",
             success: function (path) {
-                console.log(path.object);
+                console.log(path);
                 $("#hidden_main_img_e").val(path.object);
-                alert("上传成功！")
+                if (path.status==200){
+                    alert("上传成功！");
+                }
             }
         })
     });
@@ -357,6 +362,7 @@
                     $("#productStatus_e option[value='0']").prop("selected", true);
                 }
                 $("#showImage_e").html("<img style='width: 100px;height: 100px' src='" + data.object.mainImage + "'>");
+                $("#hidden_main_img_e").val(data.object.mainImage);
                 $("#category_e").val(data.object.category.name);
                 $("#brand_e").val(data.object.brand.brandName);
 
@@ -381,8 +387,8 @@
         product.originalPrice = $("#originalPrice_e").val();
         product.promotePrice = $("#promotePrice_e").val();
         product.stock = $("#stock_e").val();
-        var selectvalue = $("select[name='productStatus_e']:selected").val();
-        if (selectvalue == "1") {
+        var selectvalue = $("#productStatus_e option:selected").val();
+        if (selectvalue == 1) {
             product.productStatus = "在售";
         } else {
             product.productStatus = "停售";
@@ -399,6 +405,7 @@
             return;
         }
 
+        console.log(product)
         $.ajax({
             url: "/shone/product/product",
             type: "put",
@@ -408,7 +415,7 @@
             success: function () {
                 layer.alert("修改成功", {icon: 1});
                 initProductTable(DEFAULT_PAGE_SIZE);
-                $("#productAddModel").modal("hidden");
+                $("#productAddModel").modal("hide");
             },
             error: function () {
                 layer.alert("修改失败", {icon: 2});

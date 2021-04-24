@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" th:href="${'/qtjtwj/myico.ico'}" type="image/x-icon">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/iconfont.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/global.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/bootstrap.min.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/bootstrap-theme.min.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/login.css'}">
+    <script th:src="${'/qtjtwj/js/jquery.1.12.4.min.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/bootstrap.min.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/jquery.form.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/global.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/login.js'}" charset="UTF-8"></script>
+    <title>鞋运网 - 登录 / 注册</title>
+</head>
+<body>
+<div class="public-head-layout container">
+    <a class="logo" href="index.html"><img src="/qtjtwj/images/nxzmqt.jpg" alt="鞋运网" class="cover"></a>
+</div>
+
+<div th:replace="${template}"></div>
+
+<div class="footer-login container clearfix">
+    <ul class="links">
+        <a href="">
+            <li>网店代销</li>
+        </a>
+        <a href="">
+            <li>鞋运学堂</li>
+        </a>
+        <a href="">
+            <li>联系我们</li>
+        </a>
+        <a href="">
+            <li>企业简介</li>
+        </a>
+        <a href="">
+            <li>新手上路</li>
+        </a>
+    </ul>
+    <!-- 版权 -->
+    <p class="copyright">
+        © 2020-2021 鞋运网 版权所有，并保留所有权利<br>
+        ICP备案证书号：xxx备xxx号-1&nbsp;&nbsp;&nbsp;&nbsp;xxx省xxx市xxx县xxx村xxx小区xxx栋xxx梯xxx室&nbsp;&nbsp;&nbsp;&nbsp;Tel:
+        18888888888&nbsp;&nbsp;&nbsp;&nbsp;E-mail: 18888888888@qq.com
+    </p>
+</div>
+</body>
+</html>

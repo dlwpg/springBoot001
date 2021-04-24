@@ -1,6 +1,5 @@
 package com.wpg.graduationdesign.moudles.shones.dao;
 
-import com.wpg.graduationdesign.moudles.shones.entity.Role;
 import com.wpg.graduationdesign.moudles.shones.entity.User;
 import com.wpg.graduationdesign.vo.SearchVo;
 import org.apache.ibatis.annotations.*;
@@ -85,4 +84,8 @@ public interface UserDao {
 
     @Delete("delete from user where userid=#{userId}")
     void deleteUser(int userId);
+
+    //修改前台其他信息
+    @Update("update  user set receiveaddress=#{receiveAddress},username=#{userName},sex=#{sex},phone=#{phone} where userid = #{userId}")
+    void updateProfileQt(User user);
 }

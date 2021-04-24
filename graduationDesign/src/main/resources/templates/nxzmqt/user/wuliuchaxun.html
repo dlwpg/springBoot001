@@ -1,0 +1,73 @@
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href=""><img src="/qtjtwj/images/nxzmqt.jpg"  class="cover"></a>
+            <div class="title">个人中心</div>
+        </div>
+    </div>
+</div>
+<div class="content clearfix bgf5">
+    <section class="user-center inner clearfix">
+        <div class="pull-left bgf">
+            <div class="title">鞋运网欢迎您</div>
+            <dl class="user-center__nav">
+                <dt>帐户信息</dt>
+                <a href="/nxzmqt/user/setting"><dd>个人资料</dd></a>
+                <a href="/nxzmqt/user/shouhuodizhi"><dd>收货地址</dd></a>
+                <a href="/nxzmqt/user/xiugaimima1"><dd>修改密码</dd></a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>订单中心</dt>
+                <a href="/nxzmqt/user/wodedingdan"><dd>我的订单</dd></a>
+                <a href="/nxzmqt/user/tuihuo"><dd>退款/退货</dd></a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>服务中心</dt>
+                <a href="/nxzmqt/user/wuliuchaxun"><dd class="active">物流查询</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_shouhoufuwu"><dd>售后服务</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_peisongfuwu"><dd>配送服务</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_yonghuxieyi"><dd>用户协议</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_changjianwenti"><dd>常见问题</dd></a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>鞋运网</dt>
+                <a href="/nxzmqt/temp_article/xyw_qiyejianjie"><dd>企业简介</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_jiaruwomen"><dd>加入我们</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_yinsishuoming"><dd>隐私说明</dd></a>
+            </dl>
+        </div>
+        <div class="pull-right">
+            <div class="user-content__box clearfix bgf">
+                <div class="title">账户信息-物流查询</div>
+                <form action="" class="user-addr__form form-horizontal" role="form">
+                    <div class="input-group col-sm-6">
+                        <input class="form-control" placeholder="快递单号" type="text">
+                        <span class="input-group-btn">
+								<button class="btn btn-primary" type="button">查询</button>
+							</span>
+                    </div>
+                    <div class="help-block">例如，您可以输入：<span class="cr">40105060123</span></div>
+                    <div class="query-result__box"></div>
+                    <script>
+                        $(document).ready(function(){
+                            // 模拟查询请求
+                            $('.btn-primary').on('click',function() {
+                                if ($('.form-control').val() == '40105060123') {
+                                    $('.query-result__box').html('成功查询到数据，返回个html/json在这里展示！');
+                                } else {
+                                    $('.query-result__box').html(`
+											<div class="no-date">
+												<p class="cr">很抱歉，您的快递单号暂时没有查询结果！</p>
+												<p class="fz12 c6">您可以检查下快递单号是否正确</p>
+											</div>
+										`);
+                                }
+                            });
+                        });
+                    </script>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>

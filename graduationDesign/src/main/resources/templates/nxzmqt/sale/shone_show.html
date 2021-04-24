@@ -1,0 +1,329 @@
+<!-- 搜索栏 -->
+<div class="top-search">
+    <div class="inner">
+        <a class="logo" href="../index.html"><img src="/qtjtwj/images/nxzmqt.jpg" alt="鞋运网" class="cover"></a>
+        <div class="search-box">
+            <form class="input-group">
+                <input placeholder="鞋运网" type="text">
+                <span class="input-group-btn">
+						<button type="button">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</span>
+            </form>
+        </div>
+        <div class="cart-box">
+            <a href="/nxzmqt/user/gouwuche" class="cart-but">
+                <i class="iconfont icon-shopcart cr fz16"></i> 购物车
+            </a>
+        </div>
+    </div>
+</div>
+<!-- 内页导航栏 -->
+<div class="top-nav bg3">
+    <div class="nav-box inner">
+        <div class="all-cat">
+            <div class="title"><i class="iconfont icon-menu"></i> 全部分类</div>
+        </div>
+        <ul class="nva-list">
+            <a href="/nxzmqt/mainpage">
+                <li>首页</li>
+            </a>
+            <a href="/nxzmqt/temp_article/xyw_qiyejianjie">
+                <li>企业简介</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>新手上路</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>鞋运学堂</li>
+            </a>
+            <a href="/nxzmqt/qidaipage">
+                <li>诚信合约</li>
+            </a>
+        </ul>
+    </div>
+</div>
+
+<div class="content inner">
+    <section class="item-show__div item-show__head clearfix">
+        <div class="pull-left">
+            <ol class="breadcrumb">
+                <li><a href="javascript:void (0)">首页</a></li>
+                <li><a href="javascript:void (0)">男鞋专卖</a></li>
+                <li class="active" id="productName">原创设计日常汉服女款绣花长褙子吊带改良宋裤春夏</li>
+            </ol>
+            <div class="item-pic__box" id="magnifier">
+                <div class="small-box">
+                    <img class="cover" id="productImage">
+                    <span class="hover"></span>
+                </div>
+                <div class="thumbnail-box">
+                    <div class="thumb-list"></div>
+                </div>
+                <div class="big-box"><img id="bigImage"></div>
+            </div>
+            <script th:src="${'/qtjtwj/js/jquery.magnifier.js'}"></script>
+            <script>
+                $(function () {
+                    $('#magnifier').magnifier();
+                });
+            </script>
+            <div class="item-info__box">
+                <div class="item-title">
+                    <div class="name ep2" id="productDescription"></div>
+                </div>
+                <div class="item-price bgf5">
+                    <div class="price-box clearfix">
+                        <div class="price-panel pull-left">
+                            售价：<span class="price" id="xianjia"></span>
+                        </div>
+                        <div class="vip-price-panel pull-right">
+                            <a style="text-decoration: none" href="/nxzmqt/qidaipage">点击查看VIP价</a>
+                        </div>
+                    </div>
+                    <div class="c6">限购 5 件，请给没有购买的小伙伴留下一个体验的机会！</div>
+                </div>
+                <div class="item-key">
+                    <div class="item-sku">
+                        <dl class="item-prop clearfix">
+                            <dt class="item-metatit">颜色：</dt>
+                            <dd>
+                                <ul data-property="颜色" class="clearfix">
+                                    <li><a class="on" href="javascript:;" role="button" aria-disabled="true">
+                                        <span>盲盒式购买，颜色绝对搭配符合美学认知</span>
+                                    </a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                        <dl class="item-prop clearfix">
+                            <dt class="item-metatit">尺码：</dt>
+                            <dd>
+                                <ul data-property="尺码" class="clearfix">
+                                    <li><a class="on" href="javascript:;" role="button" aria-disabled="true">
+                                        <span>44.5(本店只卖 44.5 码折合脚长 275mm 大码男鞋)</span>
+                                    </a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="item-amount clearfix bgf5">
+                        <div class="item-metatit">数量：</div>
+                        <div class="amount-box">
+                            <div class="amount-widget">
+                                <input id="stockNum" class="amount-input" value="1" maxlength="8" title="请输入购买量"
+                                       type="text">
+                            </div>
+                            <div class="item-stock"><span style="margin-left: 10px;">库存 <b id="Stock">1000</b> 件</span>
+                            </div>
+                        </div>
+                        <script>
+                            $("#stockNum").change(function () {
+                                let inputStock = parseInt($("#stockNum").val());
+                                let stock = parseInt($("#Stock").text());
+                                if (inputStock > 5) {
+                                    $("#stockNum").val(1);
+                                    alert("亲，东西虽好可一次最多只能买5件哟！")
+                                } else {
+                                    if (inputStock <= stock) {
+                                    } else {
+                                        $("#stockNum").val(1);
+                                        alert("亲，您的需求已超出库存！")
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                    <div class="item-action clearfix bgf5">
+                        <a href="javascript:void (0);" rel="nofollow" data-addfastbuy="true" role="button"
+                           class="item-action__buy">立即购买</a>
+                        <a href="javascript:void (0);" id="jiarugouwuche" rel="nofollow" data-addfastbuy="true"
+                           role="button"
+                           class="item-action__basket">
+                            <i class="iconfont icon-shopcart"></i> 加入购物车
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pull-right picked-div">
+            <div class="lace-title">
+                <span class="c6">热销推荐</span>
+            </div>
+            <div class="swiper-container picked-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a class="picked-item" href="javascript:void (0)">
+                            <img src="/qtjtwj/images/floor_1.jpg" alt="" class="cover">
+                            <div class="look_price">¥111.11</div>
+                        </a>
+                        <a class="picked-item" href="javascript:void (0)">
+                            <img src="/qtjtwj/images/floor_2.jpg" alt="" class="cover">
+                            <div class="look_price">¥222.22</div>
+                        </a>
+                        <a class="picked-item" href="javascript:void (0)">
+                            <img src="/qtjtwj/images/floor_3.jpg" alt="" class="cover">
+                            <div class="look_price">¥333.33</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="item-show__div item-show__body posr clearfix">
+        <div class="item-nav-tabs">
+            <ul class="nav-tabs nav-pills clearfix" role="tablist" id="item-tabs">
+                <li role="presentation" class="active">
+                    <a href="#detail" role="tab" data-toggle="tab"
+                       aria-controls="detail" aria-expanded="true">商品详情</a></li>
+            </ul>
+        </div>
+        <div class="pull-left">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="detail" aria-labelledby="detail-tab">
+                    <div class="rich-text">
+                        <h3 align="center"
+                            style="text-shadow: 0 0 4px white,
+            0 -5px 4px #ff3,
+            2px -10px 6px #fd3,
+            -2px -15px 11px #f80,
+            2px -25px 18px #f20;">好货才敢随意展示</h3>
+                        <p style="text-align: center;" id="xijietu">
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="pull-right">
+            <div class="tab-content" id="descCate">
+                <div role="tabpanel" class="tab-pane fade in active" id="detail-tab" aria-labelledby="detail-tab">
+                    <div class="descCate-content bgf5">
+                        <dd class="dc-idsItem">
+                            <a href="#desc-module-2"><i class="iconfont icon-selected"></i> 细节图</a>
+                        </dd>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        //路由参数
+        let productId = getQueryVariable().id;
+
+        function getQueryVariable() {
+            let href = window.location.href
+            let query = href.substring(href.indexOf('?') + 1);
+            let vars = query.split("&");
+            let obj = {}
+            for (var i = 0; i < vars.length; i++) {
+                let pair = vars[i].split("=");
+                obj[pair[0]] = pair[1]
+            }
+            return obj;
+        }
+
+        //获取商品信息
+        $.ajax({
+            url: "/shone_qt/sale/shone/info?productId=" + productId,
+            type: "get",
+            contentType: "application/json",
+            data: "json",
+            success: function (data) {
+                // console.log(data);
+                if (data.status == 200) {
+                    $("#productName").text(data.object.productName);
+                    $("#xianjia").append("&nbsp;&nbsp;￥" + data.object.promotePrice + "&nbsp;&nbsp;&nbsp;<s class=\"fz16 c9\"> ￥" + data.object.originalPrice + "</s>");
+                    $("#productImage").attr("src", data.object.mainImage);
+                    $("#bigImage").attr("src", data.object.mainImage);
+                    $("#productDescription").append(data.object.description);
+                    $("#Stock").text(data.object.stock);
+                } else {
+                    alert("获取信息异常")
+                }
+            },
+            error: function () {
+                alert("服务异常")
+            }
+        })
+
+        //获取商品其他图片
+        $.ajax({
+            url: "/shone_qt/sale/shone/images?productId=" + productId,
+            type: "get",
+            contentType: "application/json",
+            data: "json",
+            success: function (data) {
+                console.log(data);
+                let len = data.object.length;
+                if (data.status == 200) {
+                    for (let i = 0; i < len; i++) {
+                        $("#xijietu").append("<img style='width: 600px;height: 400px' src=\"" + data.object[i].otherimage + "\" alt=\"\"><br/><br/>");
+                    }
+                } else {
+                    alert("获取信息异常")
+                }
+            },
+            error: function () {
+                alert("服务异常")
+            }
+        })
+
+
+        let Flag = 1;
+        //加入购物车之前判断用户是否登录
+        $("#jiarugouwuche").click(function () {
+            //1.判断是否登录
+            $.ajax({
+                url: "/shone_qt/login_info",
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data.object);
+                    if (data.object != null) {
+                       let aaa= confirm("确定加入购物车？");
+                       if (aaa) {
+                           //2.加入购物车
+                           let shoppingCar = {};
+                           shoppingCar.uId = data.object.userId;
+                           shoppingCar.pId = productId;
+                           shoppingCar.pName = $("#productName").text();
+                           shoppingCar.num = parseInt($("#stockNum").val());
+                           $.ajax({
+                               url: "/shone_qt/add_to_car",
+                               type: "post",
+                               contentType: "application/json",
+                               data: JSON.stringify(shoppingCar),
+                               dataType: "json",
+                               success: function (data) {
+                                   console.log(data.object);
+                                   if (data.object != null) {
+                                       alert(data.message);
+                                       $("#Stock").text($("#Stock").text() - parseInt($("#stockNum").val()));
+                                   } else {
+                                       alert("系统异常，加入购物车失败");
+                                   }
+                               },
+                               error: function (data) {
+                                   alert("系统异常")
+                               }
+
+                           });
+                       }
+                    } else {
+                        alert("系统检测到你未登录，即将跳转登录");
+                        Flag = 0;
+                        window.location.href = "/nxzmqt/user/login";
+
+                    }
+                },
+                error: function (data) {
+                    alert("请求登录用户信息失败")
+                }
+            });
+
+        });
+    </script>
+</div>

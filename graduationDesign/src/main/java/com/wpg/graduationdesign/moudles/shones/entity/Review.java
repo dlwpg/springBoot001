@@ -12,7 +12,8 @@ public class Review implements Serializable {
     private static final long serialVersionUID = -27847888112912966L;
     
     private Integer reviewId;
-    
+
+    private String orderNumber;
     private Integer uid;
     
     private Integer pid;
@@ -31,6 +32,14 @@ public class Review implements Serializable {
     private  Product product;
     //订单信息
     private  Order order;
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 
     public Order getOrder() {
         return order;

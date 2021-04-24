@@ -1,0 +1,393 @@
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href=""><img src="/qtjtwj/images/nxzmqt.jpg" class="cover"></a>
+            <div class="title">个人中心</div>
+        </div>
+    </div>
+</div>
+<div class="content clearfix bgf5">
+    <section class="user-center inner clearfix">
+        <div class="pull-left bgf">
+            <div class="title">鞋运网欢迎您</div>
+            <dl class="user-center__nav">
+                <dt>帐户信息</dt>
+                <a href="/nxzmqt/user/setting">
+                    <dd>个人资料</dd>
+                </a>
+                <a href="/nxzmqt/user/shouhuodizhi">
+                    <dd>收货地址</dd>
+                </a>
+                <a href="/nxzmqt/user/xiugaimima1">
+                    <dd>修改密码</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>订单中心</dt>
+                <a href="/nxzmqt/user/wodedingdan">
+                    <dd class="active">我的订单</dd>
+                </a>
+                <a href="/nxzmqt/user/tuihuo">
+                    <dd>退款/退货</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>服务中心</dt>
+                <a href="/nxzmqt/user/wuliuchaxun">
+                    <dd>物流查询</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_shouhoufuwu">
+                    <dd>售后服务</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_peisongfuwu">
+                    <dd>配送服务</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_yonghuxieyi">
+                    <dd>用户协议</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_changjianwenti">
+                    <dd>常见问题</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>鞋运网</dt>
+                <a href="/nxzmqt/temp_article/xyw_qiyejianjie">
+                    <dd>企业简介</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_jiaruwomen">
+                    <dd>加入我们</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_yinsishuoming">
+                    <dd>隐私说明</dd>
+                </a>
+            </dl>
+        </div>
+        <div class="pull-right">
+            <div class="user-content__box clearfix bgf">
+                <div class="title">订单中心-我的订单</div>
+                <div class="order-list__box bgf">
+                    <div class="order-panel">
+                        <ul class="nav user-nav__title" role="tablist">
+                            <li role="presentation" class="nav-item active"><a id="allOrder" href="javascript:void(0)"
+                                                                               aria-controls="all"
+                                                                               role="tab" data-toggle="tab">所有订单</a>
+                            </li>
+                            <li role="presentation" class="nav-item "><a id="pay" href="javascript:void(0)"
+                                                                         aria-controls="pay" role="tab"
+                                                                         data-toggle="tab">待付款</a>
+                            </li>
+                            <li role="presentation" class="nav-item "><a id="emit" href="javascript:void(0)"
+                                                                         aria-controls="emit" role="tab"
+                                                                         data-toggle="tab">待发货</a>
+                            </li>
+                            <li role="presentation" class="nav-item "><a id="take" href="javascript:void(0)"
+                                                                         aria-controls="take" role="tab"
+                                                                         data-toggle="tab">待收货</a>
+                            </li>
+                            <li role="presentation" class="nav-item "><a id="eval" href="javascript:void(0)"
+                                                                         aria-controls="eval" role="tab"
+                                                                         data-toggle="tab">待评价</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="all">
+                                <table class="table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th width="380">商品信息</th>
+                                        <th width="85">单价</th>
+                                        <th width="85">数量</th>
+                                        <th width="120">实付款</th>
+                                        <th width="120">交易状态</th>
+                                        <th width="120">交易操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="wodedingdan">
+
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+<input type="hidden" id="userId">
+<script>
+    let orderList = null;
+    //判断是否登录
+    $.ajax({
+        url: "/shone_qt/login_info",
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            // console.log(data.object);
+            if (data.object != null) {
+                //id
+                if (data.object.userId != null) {
+                    $("#userId").val(data.object.userId);
+                }
+                //渲染订单
+                $.ajax({
+                    url: "/shone_qt/orders?userId=" + $("#userId").val(),
+                    type: "get",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.status == 200) {
+                            initOrder(data)
+                        }
+                    }
+                });
+
+
+            } else {
+                alert("系统检测到你未登录，即将跳转登录");
+                window.location.href = "/nxzmqt/user/login";
+            }
+        },
+        error: function (data) {
+            alert("请求登录用户信息失败")
+        }
+
+    });
+
+    //渲染订单
+    function initOrder(data) {
+        let len = data.object.length;
+        orderList = data.object;
+        for (let i = 0; i < len; i++) {
+            $("#wodedingdan").append("<tr class=\"order-item\">\n" +
+                "                                        <td>\n" +
+                "                                            <label>\n" +
+                "                                                <a href=\"javascript:void (0)\" class=\"num\">\n" +
+                "                                                    " + data.object[i].orderTradingTimeDetail + " 订单号: " + data.object[i].orderNumber + "\n" +
+                "                                                </a>\n" +
+                "                                                <div class=\"card\">\n" +
+                "                                                    <div class=\"img\"><img src=\"" + data.object[i].orderProductImage + "\"\n" +
+                "                                                                         class=\"cover\"></div>\n" +
+                "                                                    <div class=\"name ep2\">" + data.object[i].orderProductName + "</div>\n" +
+                "                                                    <div class=\"format\">颜色：根据实体为准 </div>\n" +
+                "                                                    <div class=\"favour\">尺码：44.5</div>\n" +
+                "                                                </div>\n" +
+                "                                            </label>\n" +
+                "                                        </td>\n" +
+                "                                        <td>" + data.object[i].orderProductPrice + "</td>\n" +
+                "                                        <td>" + data.object[i].orderProductNumbers + "</td>\n" +
+                "                                        <td>￥" + data.object[i].orderProductTotalPrice + "<br><span class=\"fz12 c6 text-nowrap\">(含运费: ¥0.00)</span></td>\n" +
+                "                                        <td class=\"state\">\n" +
+                "                                            <a class=\"jiayizhuangtai" + i + "\" class=\"but c6\"></a>\n" +
+                "                                        </td>\n" +
+                "                                        <td class=\"order\">\n" +
+                "                                            <div style=\"display:none\" id=\"del" + i + "\" class=\"del\" onclick=\"delOrder(" + data.object[i].orderId + ")\"><span class=\"glyphicon glyphicon-trash\"\n" +
+                "                                                                   aria-hidden=\"true\"></span></div>\n" +
+                "                                            <a href=\"javascript:void(0)\" id=\"ljfk" + i + "\" class=\"but but-primary\" style=\"display:none\" onclick=\"toPay(" + data.object[i].orderId + ")\">立即付款</a>\n" +
+                "                                            <a href=\"javascript:void(0)\" id=\"pj" + i + "\" class=\"but but-primary\" style=\"display:none\" onclick=\"toReview(" + i + ")\">评价</a>\n" +
+                "                                            <a href=\"javascript:void(0)\" id=\"qrsh" + i + "\" class=\"but but-primary\" style=\"display:none\" onclick=\"receiveOrder(" + data.object[i].orderId + ")\">确认收货</a>\n" +
+                "                                        </td>\n" +
+                "                                    </tr>");
+
+            console.log(data.object[i])
+            if (data.object[i].orderPaymentStatus == "0") {
+                $(".jiayizhuangtai" + i).text("等待付款");
+                $("#del" + i).attr("style", "display:block");
+                $("#ljfk" + i).attr("style", "display:block");
+                $("#pj" + i).attr("style", "display:none");
+                $("#qrsh" + i).attr("style", "display:none");
+            } else {
+                if (data.object[i].orderSendStatus == 0) {
+                    $(".jiayizhuangtai" + i).text("等待发货");
+                    $("#del" + i).attr("style", "display:none");
+                    $("#ljfk" + i).attr("style", "display:none");
+                    $("#pj" + i).attr("style", "display:none");
+                    $("#qrsh" + i).attr("style", "display:none");
+                } else {
+                    if (data.object[i].orderConfirmStatus == 0) {
+                        $(".jiayizhuangtai" + i).text("等待收货");
+                        $("#del" + i).attr("style", "display:none");
+                        $("#ljfk" + i).attr("style", "display:none");
+                        $("#pj" + i).attr("style", "display:none");
+                        $("#qrsh" + i).attr("style", "display:block");
+                    } else {
+                        if (data.object[i].orderCommentStatus == 0) {
+                            $(".jiayizhuangtai" + i).text("等待评价");
+                            $("#del" + i).attr("style", "display:none");
+                            $("#ljfk" + i).attr("style", "display:none");
+                            $("#pj" + i).attr("style", "display:block");
+                            $("#qrsh" + i).attr("style", "display:none");
+                        } else {
+                            $(".jiayizhuangtai" + i).text("已评价");
+                            $("#del" + i).attr("style", "display:none");
+                            $("#ljfk" + i).attr("style", "display:none");
+                            $("#pj" + i).attr("style", "display:none");
+                            $("#qrsh" + i).attr("style", "display:none");
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    function toPay(orderId) {
+        window.location.href = "/nxzmqt/user/zhifu?orderId=" + orderId;
+    }
+
+    //评论
+    function toReview(i) {
+        let orderNumber = orderList[i].orderNumber;
+        let pId = orderList[i].orderProductId;
+        let userId=$("#userId").val();
+        window.location.href = "/nxzmqt/user/fankui?userId=" + userId + "&orderNumber=" + orderNumber + "&pId=" + pId;
+    }
+
+    //删除订单
+    function delOrder(orderId) {
+        console.log(orderId)
+        let aa = confirm("确认删除此订单？");
+        if (aa) {
+            $.ajax({
+                url: "/shone_qt/del_order?orderId=" + orderId,
+                type: "delete",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 200) {
+                        alert("删除成功")
+                        window.location.href = "/nxzmqt/user/wodedingdan";
+                    } else {
+                        alert("删除失败")
+                    }
+                },
+                error: function () {
+                    alert("系统异常")
+                }
+            });
+        }
+    }
+
+    //确认收货
+    function receiveOrder(orderId) {
+        let aa = confirm("确认收货？")
+        if (aa) {
+            $.ajax({
+                url: "/shone_qt/receive_order?orderId=" + orderId,
+                type: "put",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 200) {
+                        alert("确认收货成功")
+                        window.location.href = "/nxzmqt/user/wodedingdan";
+                    } else {
+                        alert("确认收货失败")
+                    }
+                },
+                error: function () {
+                    alert("系统异常")
+                }
+            });
+        }
+    }
+
+    //所有订单按钮
+    $("#allOrder").click(function () {
+        $("#allOrder").parent("ul").find("li").removeClass("nav-item active");
+        $("#allOrder").prev().addClass("nav-item active");
+        $("#wodedingdan").empty();
+        $.ajax({
+            url: "/shone_qt/orders?userId=" + $("#userId").val(),
+            type: "get",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    initOrder(data);
+                }
+            }
+        });
+    });
+    //所有带付款订单按钮
+    $("#pay").click(function () {
+        $("#allOrder").parent("ul").find("li").removeClass("nav-item active");
+        $("#allOrder").prev().addClass("nav-item active");
+        $("#wodedingdan").empty();
+        $.ajax({
+            url: "/shone_qt/not_pay_orders?userId=" + $("#userId").val(),
+            type: "get",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    initOrder(data);
+                }
+            }
+        });
+    });
+    //所有带发货订单按钮
+    $("#emit").click(function () {
+        $("#allOrder").parent("ul").find("li").removeClass("nav-item active");
+        $("#allOrder").prev().addClass("nav-item active");
+        $("#wodedingdan").empty();
+        $.ajax({
+            url: "/shone_qt/not_send_orders?userId=" + $("#userId").val(),
+            type: "get",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    initOrder(data);
+                }
+            }
+        });
+    });
+    //所有带收货订单按钮
+    $("#take").click(function () {
+        $("#allOrder").parent("ul").find("li").removeClass("nav-item active");
+        $("#allOrder").prev().addClass("nav-item active");
+        $("#wodedingdan").empty();
+        $.ajax({
+            url: "/shone_qt/not_receive_orders?userId=" + $("#userId").val(),
+            type: "get",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    initOrder(data);
+                }
+            }
+        });
+    });
+    //所有带评价订单按钮
+    $("#eval").click(function () {
+        $("#allOrder").parent("ul").find("li").removeClass("nav-item active");
+        $("#allOrder").prev().addClass("nav-item active");
+        $("#wodedingdan").empty();
+        $.ajax({
+            url: "/shone_qt/not_review_orders?userId=" + $("#userId").val(),
+            type: "get",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    initOrder(data);
+                }
+            }
+        });
+    });
+</script>

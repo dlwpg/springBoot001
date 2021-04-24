@@ -1,0 +1,133 @@
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href=""><img src="/qtjtwj/images/nxzmqt.jpg"  class="cover"></a>
+            <div class="title">个人中心</div>
+        </div>
+    </div>
+</div>
+<div class="content clearfix bgf5">
+    <section class="user-center inner clearfix">
+        <div class="pull-left bgf">
+            <div class="title">鞋运网欢迎您</div>
+            <dl class="user-center__nav">
+                <dt>帐户信息</dt>
+                <a href="/nxzmqt/user/setting"><dd>个人资料</dd></a>
+                <a href="/nxzmqt/user/shouhuodizhi"><dd>收货地址</dd></a>
+                <a href="/nxzmqt/user/xiugaimima1"><dd class="active">修改密码</dd></a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>订单中心</dt>
+                <a href="/nxzmqt/user/wodedingdan"><dd>我的订单</dd></a>
+                <a href="/nxzmqt/user/tuihuo"><dd>退款/退货</dd></a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>服务中心</dt>
+                <a href="/nxzmqt/user/wuliuchaxun"><dd>物流查询</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_shouhoufuwu"><dd>售后服务</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_peisongfuwu"><dd>配送服务</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_yonghuxieyi"><dd>用户协议</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_changjianwenti"><dd>常见问题</dd></a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>鞋运网</dt>
+                <a href="/nxzmqt/temp_article/xyw_qiyejianjie"><dd>企业简介</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_jiaruwomen"><dd>加入我们</dd></a>
+                <a href="/nxzmqt/temp_article/xyw_yinsishuoming"><dd>隐私说明</dd></a>
+            </dl>
+        </div>
+        <div class="pull-right">
+            <div class="user-content__box clearfix bgf">
+                <div class="title">账户信息-修改登陆密码</div>
+                <div class="step-flow-box">
+                    <div class="step-flow__bd">
+                        <div class="step-flow__li step-flow__li_done">
+                            <div class="step-flow__state"><i class="iconfont icon-ok"></i></div>
+                            <p class="step-flow__title-top">输入旧密码</p>
+                        </div>
+                        <div class="step-flow__line step-flow__line_ing">
+                            <div class="step-flow__process"></div>
+                        </div>
+                        <div class="step-flow__li">
+                            <div class="step-flow__state"><i class="iconfont icon-ok"></i></div>
+                            <p  class="step-flow__title-top">重置登陆密码</p>
+                        </div>
+                        <div class="step-flow__line">
+                            <div class="step-flow__process"></div>
+                        </div>
+                        <div class="step-flow__li">
+                            <div class="step-flow__state"><i class="iconfont icon-ok"></i></div>
+                            <p class="step-flow__title-top">完成</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="user-setting__form" role="form">
+                    <div class="form-group">
+                        <input id="updatePasswordQtUserName" type="hidden">
+                        <input class="form-control" id="updatePassword" required="" maxlength="20" autocomplete="off" type="password">
+                        <span class="tip-text">请输入原密码</span>
+                        <span class="see-pwd pwd-toggle" title="显示密码"><i class="glyphicon glyphicon-eye-open"></i></span>
+                        <span class="error_tip"></span>
+                    </div>
+                    <div class="user-form-group tags-box">
+                        <button id="updatePasswordQt" class="btn ">提交</button>
+                    </div>
+                </form>
+                    <script>
+                        $(document).ready(function(){
+                            $('.form-control').on('blur focus',function() {
+                                $(this).addClass('focus');
+                                $('.error_tip').empty();
+                                if ($(this).val() == ''){$(this).removeClass('focus');}
+                            });
+
+                            //判断是否登录
+                            $.ajax({
+                                url:"/shone_qt/login_info",
+                                type:"get",
+                                dataType:"json",
+                                success:function (data) {
+                                    if (data.object == null ) {
+                                        alert("系统检测到你未登录，即将跳转登录");
+                                        window.location.href="/nxzmqt/user/login";
+                                    } else {
+                                        $("#updatePasswordQtUserName").val(data.object.userName);
+                                    }
+                                },
+                                error:function (data) {
+                                    alert("获取登录用户信息失败")
+                                }
+
+                            });
+
+                            //匹配密码
+                            $("#updatePasswordQt").click(function () {
+                                let user={};
+                                user.userName=$("#updatePasswordQtUserName").val();
+                                user.passWord=$("#updatePassword").val();
+                                $.ajax({
+                                    url:"/shone_qt/check_old_password",
+                                    type: "post",
+                                    contentType: "application/json",
+                                    data:JSON.stringify(user),
+                                    dataType: "json",
+                                    success:function (data) {
+                                        if (data.status==200){
+                                            window.location.href="/nxzmqt/user/xiugaimima2";
+                                        }else {
+                                            alert(data.message)
+                                        }
+                                    },
+                                    error:function (data) {
+                                        alert("服务异常")
+                                    }
+                                });
+                            });
+
+                        });
+                    </script>
+            </div>
+        </div>
+    </section>
+</div>

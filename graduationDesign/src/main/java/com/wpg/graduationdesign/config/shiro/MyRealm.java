@@ -1,42 +1,37 @@
 package com.wpg.graduationdesign.config.shiro;
 
 import com.wpg.graduationdesign.moudles.shones.dao.UserDao;
+import com.wpg.graduationdesign.moudles.shones.entity.Role;
 import com.wpg.graduationdesign.moudles.shones.entity.User;
+import com.wpg.graduationdesign.moudles.shones.entity.UserRole;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class MyRealm extends AuthorizingRealm {
     @Autowired
     private UserDao userDao;
-//    @Autowired
-//    private ResourceService resourceService;
 
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-//        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-//        User user = (User) principalCollection.getPrimaryPrincipal();
-//        List<Role> listrole = user.getRoles();
-//        if (listrole != null && !listrole.isEmpty()) {
-//            listrole.stream().forEach(item -> {
-//                simpleAuthorizationInfo.addRole(item.getRoleName());
-//                List<Resource> resourceList = resourceService.getResourcesByRoleId(item.getRoleId());
-//
-//                if (!resourceList.isEmpty() && resourceList != null) {
-//                    resourceList.stream().forEach(resource -> {
-//                        simpleAuthorizationInfo.addStringPermission(resource.getPermission());
-//                    });
-//                }
-//            });
-//
-//        }
-//        return simpleAuthorizationInfo;
-        return null;
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        User user = (User) principalCollection.getPrimaryPrincipal();
+        User userAndRoles= userDao.getUserAndRoles(user.getUserId());
+        List<UserRole> userRoles = userAndRoles.getUserRoles();
+        if (userRoles != null && !userRoles.isEmpty()) {
+            userRoles.stream().forEach(item -> {
+                simpleAuthorizationInfo.addRole(item.getRoles().get(0).getName());
+            });
+        }
+        return simpleAuthorizationInfo;
     }
 
     //验证

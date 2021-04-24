@@ -8,6 +8,7 @@ import com.wpg.graduationdesign.vo.Result;
 import com.wpg.graduationdesign.vo.SearchVo;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface UserService {
@@ -47,4 +48,10 @@ public interface UserService {
 
     //修改权限
     Result<User> updateRole(int userId,List<UserRole> userRole);
+
+    //匹配前台原密码
+    Result<User> checkOldPassword(User user);
+
+    //修改前台其他信息
+    Result<User> updateSetting(User user);
 }

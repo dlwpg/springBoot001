@@ -1,0 +1,449 @@
+<!--datatable组件-->
+<link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="/plugin/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/js/ch_datatables.js"></script>
+
+<style>
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    /*inline让div不占据一整行*/
+    .dataTables_length {
+        display: inline;
+    }
+
+    .dataTables_filter {
+        display: inline;
+        float: right;
+    }
+
+    .dataTables_info {
+        display: inline;
+    }
+
+    #userAddressTable_paginate {
+        float: right;
+        cursor: pointer;
+    }
+</style>
+
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href=""><img src="/qtjtwj/images/nxzmqt.jpg" class="cover"></a>
+            <div class="title">个人中心</div>
+        </div>
+    </div>
+</div>
+<div class="content clearfix bgf5">
+    <section class="user-center inner clearfix">
+        <div class="pull-left bgf">
+            <div class="title">鞋运网欢迎您</div>
+            <dl class="user-center__nav">
+                <dt>帐户信息</dt>
+                <a href="/nxzmqt/user/setting">
+                    <dd>个人资料</dd>
+                </a>
+                <a href="/nxzmqt/user/shouhuodizhi">
+                    <dd class="active">收货地址</dd>
+                </a>
+                <a href="/nxzmqt/user/xiugaimima1">
+                    <dd>修改密码</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>订单中心</dt>
+                <a href="/nxzmqt/user/wodedingdan">
+                    <dd>我的订单</dd>
+                </a>
+                <a href="/nxzmqt/user/tuihuo">
+                    <dd>退款/退货</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>服务中心</dt>
+                <a href="/nxzmqt/user/wuliuchaxun">
+                    <dd>物流查询</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_shouhoufuwu">
+                    <dd>售后服务</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_peisongfuwu">
+                    <dd>配送服务</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_yonghuxieyi">
+                    <dd>用户协议</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_changjianwenti">
+                    <dd>常见问题</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>鞋运网</dt>
+                <a href="/nxzmqt/temp_article/xyw_qiyejianjie">
+                    <dd>企业简介</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_jiaruwomen">
+                    <dd>加入我们</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_yinsishuoming">
+                    <dd>隐私说明</dd>
+                </a>
+            </dl>
+        </div>
+        <div class="pull-right">
+            <div class="user-content__box clearfix bgf">
+                <div class="title">账户信息-收货地址</div>
+                <form action="javascript:void (0);" class="user-addr__form form-horizontal" role="form">
+                    <p class="fz18 cr">新增收货地址<span class="c6" style="margin-left: 20px">注意：1.新增前请刷新页面  &nbsp;2.地址格式：省-市-区-具体地址</span></p>
+                    <div class="form-group">
+                        <input type="hidden" id="userId">
+                        <input type="hidden" id="addressId">
+                        <label for="userName" class="col-sm-2 control-label">收货人姓名：</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="userName" placeholder="请输入姓名" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailsAddress" class="col-sm-2 control-label">收货地址：</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="detailsAddress" placeholder="建议您如实填写详细收货地址，例如街道名称，门牌号码等信息"
+                                   maxlength="100" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-2 control-label">电话号码：</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="phone" placeholder="请输入电话号码" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <div class="checkbox">
+                                <label><input id="isAddress" type="checkbox"><i></i> 设为常用收货地址</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button name="bcbtn" class="but">保存</button>
+                        </div>
+                    </div>
+                </form>
+                <p class="fz18 cr">已保存的有效地址</p>
+                <div class="addr-list">
+                    <table id="userAddressTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>收货地址ID</th>
+                            <th>买家ID</th>
+                            <th>买家姓名</th>
+                            <th>电话</th>
+                            <th>收货地址</th>
+                            <th>常用地址</th>
+                            <!--操作只能分配权限和删除功能-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script>
+                let DEFAULT_PAGE_SIZE = 5;
+                let thisUserId=0;
+                $(document).ready(function () {
+                    //判断是否登录并初始化收货地址
+                    $.ajax({
+                        url: "/shone_qt/login_info",
+                        type: "get",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data.object);
+                            if (data.object != null) {
+                                //id
+                                if (data.object.userId != null) {
+                                    //userId
+                                    $("#userId").val(data.object.userId);
+                                    //展示地址
+                                    thisUserId = data.object.userId;
+                                    //报存按钮为报存功能
+                                    $("button[name='bcbtn']").attr("id", "save");
+
+
+                                    $(function () {
+                                        initUserAddressTable(DEFAULT_PAGE_SIZE);
+                                    })
+                                }
+
+                            } else {
+                                alert("系统检测到你未登录，即将跳转登录");
+                                window.location.href = "/nxzmqt/user/login";
+                            }
+                        },
+                        error: function (data) {
+                            alert("请求登录用户信息失败")
+                        }
+
+                    });
+                });
+
+
+                //初始化表格
+                function initUserAddressTable(pageSize) {
+
+                    $('#userAddressTable').DataTable({
+                        'paging': true, //分页
+                        "serverSide": true, //开启后端分页
+                        "pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
+                        "pageLength": pageSize, //定义初始的页长
+                        "processing": true,
+                        "destroy": true, //允许销毁替换，在表格重新查询时，可以自动销毁以前的data
+                        'lengthChange': true, //控制是否能够调整每页的条数
+                        'searching': true,
+                        'data-show-refresh': true,
+                        'ordering': true,
+                        'autoWidth': false,
+                        "ajax": function (data, callback, settings) {
+                            // 从data获取查询数据
+                            let columIndex = data.order[0].column;
+                            let sort = data.order[0].dir;
+                            let orderBy = data.columns[columIndex].name;
+                            pageSize = data.length == undefined ? pageSize : data.length;
+
+                            let searchVo = {};
+                            searchVo.currentPage = (data.start / pageSize) + 1;
+                            searchVo.pageSize = pageSize;
+                            searchVo.orderBy = orderBy;
+                            searchVo.sort = sort;
+                            searchVo.keyWord = data.search.value;
+
+                            $.ajax({
+                                url: "/shone_qt/address_qt/" + thisUserId,
+                                type: "Post",
+                                contentType: "application/json",
+                                data: JSON.stringify(searchVo),
+                                // dataType: "json",
+                                success: function (rs) {
+                                    console.log(rs);
+                                    let fData = {
+                                        draw: 0,
+                                        recordsTotal: 0,
+                                        recordsFiltered: 0,
+                                        data: []
+                                    };
+                                    if (!rs) {
+                                        alert("请求出错，请稍后重试" + rs.message);
+                                        callback(fData);
+                                        return;
+                                    }
+                                    ;
+                                    if (rs.list == null) {
+                                        $('#userAddressTable tbody tr').remove();
+                                        $('#loading').remove();
+                                        callback(fData);
+                                        return;
+                                    }
+                                    $('#loading').remove();
+                                    var gearDatas = [];
+                                    for (var i = 0; i < rs.list.length; i++) {
+                                        //包装行数据
+                                        var rowData = new TData(rs.list[i].addressId, rs.list[i].userId,
+                                            rs.list[i].userName, rs.list[i].userPhone, rs.list[i].address,
+                                            rs.list[i].status);
+                                        // 将行数据放到数组里
+                                        gearDatas.push(rowData);
+                                    }
+                                    // console.log(gearDatas);
+                                    fData.data = gearDatas;
+                                    fData.recordsTotal = rs.total;
+                                    fData.recordsFiltered = rs.total;
+                                    callback(fData);
+                                },
+                                error: function (data) {
+                                    alert(data.responseText);
+                                }
+                            });
+                        },
+                        "columns": [ //定义行数据字段
+                            {data: 'addressId', name: "address_id", sortable: true},
+                            {data: 'userId', name: "user_id", sortable: true},
+                            {data: 'userName', name: "user_name", sortable: true},
+                            {data: 'userPhone', name: "user_phone", sortable: true},
+                            {data: 'address', name: "address", sortable: true},
+                            {data: 'status', name: "status", sortable: false},
+                            {data: 'operate', width: '230px', sortable: false}
+                        ]
+                    });
+
+                    $("#userAddressTable_length").find("label")
+                }
+
+
+                //行数据结构
+                function TData(addressId, userId, userName, userPhone, address, status) {
+                    this.addressId = addressId;
+                    this.userId = userId;
+                    this.userName = userName;
+                    this.userPhone = userPhone;
+                    this.address = address;
+                    if (status == 1) {
+                        this.status = "是";
+                    } else {
+                        this.status = "否";
+                    }
+
+                    this.operate = function () {
+                        return "<a href='javascript:void(0);' class='btn btn-success' " +
+                            "onclick='getReceiveAddress(\"" + addressId + "\")'>编辑</a>&nbsp;" +
+                            "<a href='javascript:void(0);' onclick='deleteUserAddress(\"" + addressId + "\")' " +
+                            " class='btn btn-warning'>删除</a>"
+                            ;
+                    }
+                }
+
+                //显示收货地址
+                function getReceiveAddress(addressId) {
+                    //获取当前地址信息
+                    $.ajax({
+                        url: "/shone_qt/address_qt?addressId=" + addressId,
+                        type: "get",
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                //报存按钮为修改功能
+                                $("button[name='bcbtn']").attr("id", "update");
+                                $("#addressId").val(data.object.addressId);
+                                $("#userName").val(data.object.userName);
+                                $("#detailsAddress").val(data.object.address);
+                                $("#phone").val(data.object.userPhone);
+                                if (data.object.status == 1) {
+                                    $("#isAddress").prop("checked", true);
+                                } else {
+                                    $("#isAddress").prop("checked", false);
+                                }
+
+                            }
+                        }
+                    })
+                }
+
+                //保存按钮
+                $("button[name='bcbtn']").click(function () {
+                    let attribute = $("button[name='bcbtn']").attr("id");
+                    if (attribute == "save") {
+                        //执行保存操作
+                        saveReceiveAddress();
+                    } else {
+                        //执行修改操作
+                        updateReceiveAddress();
+                    }
+                });
+
+                //修改收货地址
+                function updateReceiveAddress() {
+                    let ReceiveAddress = {};
+                    ReceiveAddress.addressId = $("#addressId").val();
+                    ReceiveAddress.userName = $("#userName").val();
+                    ReceiveAddress.address = $("#detailsAddress").val();
+                    ReceiveAddress.userPhone = $("#phone").val();
+                    if ($("#isAddress").prop("checked")) {
+                        ReceiveAddress.status = 1;
+                    } else {
+                        ReceiveAddress.status = 0;
+                    }
+                    //修改当前地址信息
+                    $.ajax({
+                        url: "/shone_qt/address_qt",
+                        type: "put",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(ReceiveAddress),
+                        success: function (data) {
+                            if (data.status == 200) {
+                                alert(data.message);
+                                //报存按钮为修改功能
+                                $("button[name='bcbtn']").attr("id", "save");
+                                $("#addressId").val("");
+                                $("#userName").val("");
+                                $("#detailsAddress").val("");
+                                $("#phone").val("");
+                                $("#isAddress").prop("checked", false);
+                                window.location.href="/nxzmqt/user/shouhuodizhi";
+                            }
+                            else {
+                                alert("修改失败")
+                            }
+                        }
+                    })
+                }
+
+                //新增收货地址
+                function saveReceiveAddress() {
+                    let ReceiveAddress = {};
+                    ReceiveAddress.userId = $("#userId").val();
+                    ReceiveAddress.userName = $("#userName").val();
+                    ReceiveAddress.address = $("#detailsAddress").val();
+                    ReceiveAddress.userPhone = $("#phone").val();
+                    if ($("#isAddress").prop("checked")) {
+                        ReceiveAddress.status = 1;
+                    } else {
+                        ReceiveAddress.status = 0;
+                    }
+                    //新增地址信息
+                    $.ajax({
+                        url: "/shone_qt/save_address_qt",
+                        type: "post",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(ReceiveAddress),
+                        success: function (data) {
+                            if (data.status == 200) {
+                                alert(data.message);
+                                //报存按钮为保存功能
+                                $("button[name='bcbtn']").attr("id", "save");
+                                $("#addressId").val("");
+                                $("#userName").val("");
+                                $("#detailsAddress").val("");
+                                $("#phone").val("");
+                                $("#isAddress").prop("checked", false);
+                                window.location.href="/nxzmqt/user/shouhuodizhi";
+
+                            }
+                        }
+                    })
+                }
+
+                //删除地址
+                function deleteUserAddress(addressId){
+                    let aaa = confirm("确认删除此收货地址吗？");
+                    if (aaa){
+                     $.ajax({
+                        url: "/shone_qt/del_address_qt/"+addressId,
+                        type: "delete",
+                        contentType: "application/json",
+                        // dataType: "json",
+                        // data: JSON.stringify(ReceiveAddress),
+                        success: function (data) {
+                            alert(data.message);
+                            window.location.href="/nxzmqt/user/shouhuodizhi";
+                        },
+                        error:function (data) {
+                            alert("删除失败");
+                        }
+                    });
+                    }
+                }
+
+            </script>
+        </div>
+    </section>
+</div>

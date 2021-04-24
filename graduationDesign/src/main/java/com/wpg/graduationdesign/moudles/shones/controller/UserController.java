@@ -82,7 +82,7 @@ public class UserController {
     @PutMapping(value = "/password", consumes = "application/json")
     public String updatePassword(@RequestBody User user) {
         try {
-            String content = "<a href='http://127.0.0.1/nxzm/revisepassword?userId="
+            String content = "<a href='http://127.0.0.1/nxzm/user/revisepassword?userId="
                     + user.getUserId() + "&newPassword=" + user.getPassWord() + "'>请点击确认修改</a>";
             SendEmail.sendMail(user.getEmail(), "这是一封确认邮件", content);
         } catch (MessagingException e) {

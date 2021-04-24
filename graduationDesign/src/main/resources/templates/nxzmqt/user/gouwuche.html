@@ -1,0 +1,259 @@
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href=""><img src="/qtjtwj/images/nxzmqt.jpg" alt="鞋运网网" class="cover"></a>
+            <div class="title">购物车</div>
+        </div>
+    </div>
+</div>
+<input type="hidden" class="userId">
+<input type="hidden" class="userName">
+<input type="hidden" class="Phone">
+<div class="content clearfix bgf5">
+    <section class="user-center inner clearfix">
+        <div class="user-content__box clearfix bgf">
+            <div class="title">购物车</div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td colspan="2" width="150px" align="center">
+                        商品图片
+                    </td>
+                    <td width="300px" align="center">商品信息</td>
+                    <td width="150px" align="center">价格信息</td>
+                    <td width="200px" align="center">数量</td>
+                    <td width="200px" align="center">总价(￥)</td>
+                    <td width="80px" align="center">操作</td>
+                </tr>
+                </thead>
+                <tbody id="gouWuChe">
+
+                </tbody>
+            </table>
+            <div class="user-form-group tags-box shopcart-submit pull-right">
+                <button id="tjdd" class="btn">提交订单
+                </button>
+            </div>
+            <div class="checkbox shopcart-total">
+                <div class="pull-right">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;合计（不含运费）
+                    <b class="cr">¥<span class="fz24">00.00</span></b>
+                </div>
+            </div>
+
+            <script>
+                $(function () {
+                    let len = 0;
+                    //判断是否登录并渲染界面
+                    $.ajax({
+                        url: "/shone_qt/login_info",
+                        type: "get",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data.object);
+                            if (data.object != null) {
+                                //id
+                                if (data.object.userId != null) {
+                                    $(".userId").val(data.object.userId)
+                                }
+                                //用户名
+                                if (data.object.userName != null) {
+                                    $(".userName").val(data.object.userName)
+                                }
+                                //电话
+                                if (data.object.phone != null) {
+                                    $(".Phone").val(data.object.phone)
+                                }
+
+                                if (data.object.userId != null) {
+                                    //获取用户购物车信息
+                                    $.ajax({
+                                        url: "/shone_qt/car_info/" + data.object.userId,
+                                        type: "get",
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            console.log(data.object);
+                                            len = data.object.length;
+                                            if (data.object != null) {
+                                                for (let i = 0; i < len; i++) {
+                                                    $("#gouWuChe").append("<tr>\n" +
+                                                        "                    <th style=\" vertical-align:middle\"  width=\"20px\">\n" +
+                                                        "                         <input class=\"gouwuchexuanzhong\" k-index=\"" + i + "\" type=\"checkbox\">" +
+                                                        "                    </th>\n" +
+                                                        "                    <th scope=\"row\">\n" +
+                                                        "                        <input class=\"carId\" type=\"hidden\" value=\"" + data.object[i].id + "\">\n" +
+                                                        "                        <input class=\"pId\" type=\"hidden\" value=\"" + data.object[i].pId + "\">\n" +
+                                                        "                        <input class=\"cId\" type=\"hidden\" value=\"" + data.object[i].product.category.categoryId + "\">\n" +
+                                                        "                            <div class=\"img\"><img src=\"" + data.object[i].product.mainImage + "\" class=\"cover\"></div>\n" +
+                                                        "                    </th>\n" +
+                                                        "                    <td>\n" +
+                                                        "                        <br>\n" +
+                                                        "                        <br>\n" +
+                                                        "                        <div class=\"name1\">" + data.object[i].product.productName + "</div>\n" +
+                                                        "                        <div class=\"name2\">" + data.object[i].product.description + "</div>\n" +
+                                                        "                        <br>\n" +
+                                                        "                        <div class=\"type c9\">颜色：根据实体为准   尺码：44.5</div>\n" +
+                                                        "                    </td>\n" +
+                                                        "                    <td align=\"center\"> " +
+                                                        "                        <br>\n" +
+                                                        "                        <br>\n" +
+                                                        "                     原价(￥):<div class=\"YJ\">" + data.object[i].product.originalPrice + "</div>" +
+                                                        "                     现价(￥):<div class=\"XJ\">" + data.object[i].product.promotePrice + "</div>" +
+                                                        "                    </td>\n" +
+                                                        "                    <td class=\"nums\" align=\"center\" style=\"line-height: 140px\">\n" +
+                                                        "                        " + data.object[i].num + "\n" +
+                                                        "                    </td>\n" +
+                                                        "                    <td align=\"center\" class='\price\' style=\"line-height: 140px\">" + data.object[i].product.promotePrice * data.object[i].num + "</td>\n" +
+                                                        "                    <td align=\"center\" style=\"line-height: 140px\"><a href=\"javascript:void (0)\" onclick=\"delGouWuChe(" + data.object[i].id + "," + data.object[i].pId + "," + data.object[i].num + ")\">删除</a></td>\n" +
+                                                        "                </tr>");
+                                                }
+                                            } else {
+                                                alert("获取购物车信息失败");
+                                            }
+                                        },
+                                        error: function (data) {
+                                            alert("请求信息系统异常")
+                                        }
+
+                                    });
+                                }
+                            } else {
+                                alert("系统检测到你未登录，即将跳转登录");
+                                window.location.href = "/nxzmqt/user/login";
+                            }
+                        },
+                        error: function (data) {
+                            alert("请求登录用户信息失败")
+                        }
+
+                    });
+
+                    //渲染勾选总价
+                    $('#gouWuChe').on('change', $('.gouwuchexuanzhong'), function (e) {
+                        let total = 0;
+                        $('#gouWuChe').find('tr').each(function () {
+                            let isChecked = $(this).find('.gouwuchexuanzhong').is(':checked');
+                            if (isChecked) {
+                                total += Number($(this).find('.price').text())
+                            }
+                        })
+                        $(".fz24").text(total);
+                        console.log(total)
+                        // let _this = $(e.target);
+                        // console.log(_this.attr('k-index'))
+                        // console.log(_this.is(':checked'))
+                    })
+
+
+                })
+
+                //删除购物车
+                function delGouWuChe(id, pId, num) {
+                    let shoppingCar = {};
+                    shoppingCar.id = id;
+                    shoppingCar.pId = pId;
+                    shoppingCar.num = num;
+                    $.ajax({
+                        url: "/shone_qt/del_to_car",
+                        type: "delete",
+                        contentType: "application/json",
+                        data: JSON.stringify(shoppingCar),
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                alert(data.message);
+                                window.location.href = "/nxzmqt/user/gouwuche";
+                            } else {
+                                alert("删除失败");
+                            }
+                        },
+                        error: function (data) {
+                            alert("服务异常");
+                        }
+                    });
+                }
+
+                //提交订单
+                $("#tjdd").click(function () {
+                    let aaa = confirm("亲，确认提交订单吗？");
+                    if (aaa) {
+                        if (Number($(".fz24").text()) == 0.0) {
+                            alert("请勾选需要提交的商品")
+                        } else {
+                            //组装订单
+                            let orders = new Array();
+                            //carIds-删除购物车
+                            let carIds = "";
+                            $('#gouWuChe').find('tr').each(function () {
+                                let isChecked = $(this).find('.gouwuchexuanzhong').is(':checked');
+                                if (isChecked) {
+                                    let order = {};
+                                    order.orderNumber=randomNumber();
+                                    order.orderProductId = $(this).find('.pId').val();
+                                    order.orderProductType = $(this).find('.cId').val();
+                                    order.orderProductName = $(this).find('.name1').text();
+                                    order.orderProductNumbers = Number($(this).find('.nums').text());
+                                    order.orderProductTotalPrice = $(this).find('.price').text();
+                                    order.orderProductPrice = $(this).find('.XJ').text();
+                                    // console.log($(this).find('.img').find('img').attr("src"));
+                                    order.orderProductImage = $(this).find('.img').find('img').attr("src");
+                                    order.userId = $(".userId").val();
+                                    order.orderUserName = $(".userName").val();
+                                    order.userPhone = $(".Phone").val();
+                                    orders.push(order);
+                                    carIds += $(this).find('.carId').val() + ",";
+                                }
+                            });
+                            let ord = JSON.stringify(orders);
+                            console.log(orders);
+                            console.log(carIds);
+                            $.ajax({
+                                url: "/shone_qt/add_order?carIds=" + carIds,
+                                type: "post",
+                                contentType: "application/json",
+                                data: ord,
+                                success: function (data) {
+                                    if (data.status == 200) {
+                                        alert(data.message);
+                                        window.location.href = "/nxzmqt/user/gouwuche";
+                                    } else {
+                                        alert("订单提交失败！")
+                                    }
+                                },
+                                error: function () {
+                                    alert("服务异常")
+                                }
+                            });
+                            // window.location.href = "/nxzmqt/user/zhifu?carIds=" + carIds;
+                        }
+                    }
+                })
+
+                function setTimeDateFmt(s) {  // 个位数补齐十位数
+                    return s < 10 ? '0' + s : s;
+                }
+
+                //随机生成订单号
+                function randomNumber() {
+                    const now = new Date()
+                    let month = now.getMonth() + 1
+                    let day = now.getDate()
+                    let hour = now.getHours()
+                    let minutes = now.getMinutes()
+                    let seconds = now.getSeconds()
+                    month = setTimeDateFmt(month)
+                    day = setTimeDateFmt(day)
+                    hour = setTimeDateFmt(hour)
+                    minutes = setTimeDateFmt(minutes)
+                    seconds = setTimeDateFmt(seconds)
+                    let orderCode = now.getFullYear().toString() + month.toString() + day + hour + minutes + seconds + (Math.round(Math.random() * 1000000)).toString();
+                    console.log(orderCode)
+                    return orderCode;
+                }
+
+            </script>
+        </div>
+    </section>
+</div>

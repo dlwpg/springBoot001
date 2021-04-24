@@ -6,4 +6,6 @@ import com.wpg.graduationdesign.vo.SearchVo;
 
 public interface ReviewService {
     PageInfo<Review> getReviewsBySearchVo(SearchVo searchVo);
+
+    void saveReview(Review review);
 }

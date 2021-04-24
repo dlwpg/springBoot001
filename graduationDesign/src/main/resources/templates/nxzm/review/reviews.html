@@ -89,6 +89,8 @@
     var DEFAULT_PAGE_SIZE = 5;
     $(function () {
         initReviewsTable(DEFAULT_PAGE_SIZE);
+        // $('#reviewstable tr').find('th:eq(0)').hide();
+        // $('#reviewstable tr').find('td:eq(0)').hide();
     })
 
     function initReviewsTable(pageSize) {
@@ -146,6 +148,7 @@
                         }
                         $('#loading').remove();
                         var gearDatas = [];
+                        console.log(rs)
                         for (var i = 0; i < rs.list.length; i++) {
                             //包装行数据
                             var rowData = new TData(rs.list[i].reviewId,

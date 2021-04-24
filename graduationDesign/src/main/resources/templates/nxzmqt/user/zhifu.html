@@ -1,0 +1,239 @@
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href=""><img src="/qtjtwj/images/nxzmqt.jpg" alt="鞋运网网" class="cover"></a>
+            <div class="title">支付</div>
+        </div>
+    </div>
+</div>
+<div class="content clearfix bgf5">
+    <section class="user-center inner clearfix">
+        <div class="user-content__box clearfix bgf">
+            <div class="title">购物车-确认支付</div>
+            <div class="shop-title">收货地址</div>
+            <form action="javascript:void (0)" class="shopcart-form__box">
+                <div class="addr-radio" id="addressList">
+
+                </div>
+                <div class="shop-title">确认订单</div>
+                <div class="shop-order__detail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th width="120"></th>
+                            <th width="300">商品信息</th>
+                            <th width="150">单价</th>
+                            <th width="200">数量</th>
+                            <th width="200">运费</th>
+                            <th width="80">总价</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dd">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="shop-cart__info clearfix" id="otherInfo">
+
+                </div>
+            </form>
+            <div class="pay-mode__box" id="paymethod">
+
+            </div>
+            <div class="user-form-group shopcart-submit">
+                <button id="zf" class="btn">支付</button>
+            </div>
+            <input hidden id="orderId">
+            <br>
+            <br>
+            <br>
+            <!--                支付成功图片-->
+            <div id="zfcgtp" style="margin-left: 500px;height: 200px;width: 200px;display: none;">
+                <img src="/qtjtwj/images/icons/success.png">
+                <h3 style="margin-left: -15px">支付成功</h3>
+            </div>
+            <script>
+                //路由参数
+                let orderId = getQueryVariable().orderId;
+
+                function getQueryVariable() {
+                    let href = window.location.href
+                    let query = href.substring(href.indexOf('?') + 1);
+                    let vars = query.split("&");
+                    let obj = {}
+                    for (var i = 0; i < vars.length; i++) {
+                        let pair = vars[i].split("=");
+                        obj[pair[0]] = pair[1]
+                    }
+                    return obj;
+                }
+
+                //判断是否登录
+                $.ajax({
+                    url: "/shone_qt/login_info",
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data.object);
+                        if (data.object != null) {
+                            $.ajax({
+                                url: "/shone_qt/receive_address_list?userId=" + data.object.userId,
+                                type: "get",
+                                contentType: "application/json",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.status == 200) {
+                                        //渲染地址
+                                        let len = data.object.length;
+                                        for (let i = 0; i < len; i++) {
+                                            $("#addressList").append("<div id=\"addressActive" + i + "\" class=\"radio-line radio-box\">\n" +
+                                                "                        <label class=\"radio-label ep\"\n" +
+                                                "                               title=\" " + data.object[i].address + " （" + data.object[i].userName + " 收） " + data.object[i].userPhone + "\">\n" +
+                                                "                            <input name=\"addr\" checked=\"\" value=\"0\" autocomplete=\"off\" type=\"radio\"><i\n" +
+                                                "                                class=\"iconfont icon-radio\"></i>\n" +
+                                                data.object[i].address + " （" + data.object[i].userName +
+                                                "收） " + data.object[i].userPhone +
+                                                "                        </label>\n" +
+                                                "                        <a href=\"javascript:void(0);\" class=\"default\">常用收货地址地址</a>\n" +
+                                                "                    </div>"
+                                            )
+                                        }
+                                        $("#addressActive" + (len - 1)).attr("class", "radio-line radio-box active");
+
+                                    }
+                                }
+                            });
+
+
+                            //渲染订单
+                            $.ajax({
+                                url: "/shone_qt/order?orderId=" + orderId,
+                                type: "get",
+                                contentType: "application/json",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.status == 200) {
+                                        $("#orderId").val(data.object.orderId);
+                                        $("#dd").append("<tr>\n" +
+                                            "                            <th scope=\"row\"><a href=\"javascript:void(0)\">\n" +
+                                            "                                <div class=\"img\"><img src=\"" + data.object.orderProductImage + "\" alt=\"\" class=\"cover\"></div>\n" +
+                                            "                            </a></th>\n" +
+                                            "                            <td>\n<br>" +
+                                            "                                <div class=\"name ep3\">" + data.object.orderProductName + "</div>\n" +
+                                            "                                <div class=\"type c9\">颜色分类：以实物为准 尺码：44.5</div>\n" +
+                                            "                            </td>\n" +
+                                            "                            <td><br><br><br>¥" + data.object.orderProductPrice + "</td>\n" +
+                                            "                            <td><br><br><br>" + data.object.orderProductNumbers + "</td>\n" +
+                                            "                            <td><br><br><br>¥0.0</td>\n" +
+                                            "                            <td><br><br><br>¥" + data.object.orderProductTotalPrice + "</td>\n" +
+                                            "                        </tr>");
+                                        //支付方式
+                                        $("#paymethod").append("<div id=\"fff1\" class=\"radio-line radio-box\">\n" +
+                                            "                    <label class=\"radio-label ep\">\n" +
+                                            "                        <input name=\"pay-mode\" value=\"2\" autocomplete=\"off\" type=\"radio\"><i\n" +
+                                            "                            class=\"iconfont icon-radio\"></i>\n" +
+                                            "                        <img src=\"/qtjtwj/images/icons/alipay.png\" alt=\"支付宝支付\">\n" +
+                                            "                    </label>\n" +
+                                            "                    <div class=\"pay-value\">支付<b class=\"fz16 cr\">" + data.object.orderProductTotalPrice + "</b>元</div>\n" +
+                                            "                </div>\n" +
+                                            "                <div id=\"fff2\" class=\"radio-line radio-box\">\n" +
+                                            "                    <label class=\"radio-label ep\">\n" +
+                                            "                        <input name=\"pay-mode\" value=\"3\" autocomplete=\"off\" type=\"radio\"><i\n" +
+                                            "                            class=\"iconfont icon-radio\"></i>\n" +
+                                            "                        <img src=\"/qtjtwj/images/icons/paywechat.png\" alt=\"微信支付\">\n" +
+                                            "                    </label>\n" +
+                                            "                    <div class=\"pay-value\">支付<b class=\"fz16 cr\">" + data.object.orderProductTotalPrice + "</b>元</div>\n" +
+                                            "                </div>");
+
+                                        //其他信息
+                                        $("#otherInfo").append("<div class=\"pull-left text-left\">\n" +
+                                            "                        <div class=\"info-line text-nowrap\">购买时间：<span class=\"c6\">" + data.object.orderTradingTimeDetail + "</span></div>\n" +
+                                            "                        <div class=\"info-line text-nowrap\">交易类型：<span class=\"c6\">担保交易</span></div>\n" +
+                                            "                        <div class=\"info-line text-nowrap\">交易号：<span class=\"c6\">" + data.object.orderNumber + "</span></div>\n" +
+                                            "                    </div>\n" +
+                                            "                    <div class=\"pull-right text-right\">\n" +
+                                            "                        <div class=\"form-group\">\n" +
+                                            "                            <div class=\"info-line\">运费：<span class=\"c6\">¥0.00</span></div>\n" +
+                                            "                            <div class=\"info-line\">合计：<b class=\"fz18 cr\">¥" + data.object.orderProductTotalPrice + "</b></div>\n" +
+                                            "                        </div>\n" +
+                                            "                    </div>")
+
+                                    } else {
+                                        alert("信息获取失败")
+                                    }
+                                }
+                            });
+
+                        } else {
+                            alert("系统检测到你未登录，即将跳转登录");
+                            window.location.href = "/nxzmqt/user/login";
+                        }
+                    },
+                    error: function (data) {
+                        alert("请求登录用户信息失败")
+                    }
+
+                });
+
+
+                $(document).ready(function () {
+                    $(this).on('change', 'input', function () {
+                        $(this).parents('.radio-box').addClass('active').siblings().removeClass('active');
+                    })
+
+                    //支付
+                    $("#zf").click(function () {
+                        let aaa = confirm("确定支付吗？")
+                        if (aaa) {
+                            //判断是否选择支付方式
+                          let s=  $("#fff1").attr("class");
+                          let b=  $("#fff2").attr("class");
+                          if (s==b){
+                              alert("请选择收款支付方式！");
+                              return;
+                          }
+                            //写入订单
+                            let order={};
+                            order.orderAddress = $(".addr-radio:eq(0) div label:eq(0)").text();
+                            order.orderId=$("#orderId").val();
+                            $.ajax({
+                                url: "/shone_qt/pay",
+                                type: "post",
+                                contentType: "application/json",
+                                data:JSON.stringify(order),
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.status == 200) {
+                                        let i = 0;
+                                        let timer = setInterval(function () {
+                                            i++;
+                                            if (i < 30) {
+                                                $("#zfcgtp").css("display", "block");
+                                            }
+                                            if (i >= 30) {
+                                                clearInterval(timer);
+                                                $("#zfcgtp").css("display", "none");
+                                            }
+                                        }, 100);
+                                        window.location.href="/nxzmqt/user/wodedingdan";
+                                    }else {
+                                        alert("支付失败");
+                                    }
+                                },
+                                error:function () {
+                                    alert("服务异常");
+                                }
+                            });
+
+                        }
+                    })
+                });
+
+                //地址集合
+
+            </script>
+
+        </div>
+    </section>
+</div>

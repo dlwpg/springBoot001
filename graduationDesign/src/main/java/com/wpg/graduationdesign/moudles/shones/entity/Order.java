@@ -14,6 +14,8 @@ public class Order implements Serializable {
     * 订单id
     */
     private Integer orderId;
+
+    private Integer userId;
     
     private Integer orderProductId;
     /**
@@ -91,6 +93,14 @@ public class Order implements Serializable {
 
     //电话
     private String userPhone;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getUserPhone() {
         return userPhone;
@@ -279,10 +289,10 @@ public class Order implements Serializable {
     }
 
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "Order{" +
                 "orderId=" + orderId +
+                ", userId=" + userId +
                 ", orderProductId=" + orderProductId +
                 ", orderProductNumbers=" + orderProductNumbers +
                 ", orderNumber='" + orderNumber + '\'' +
@@ -293,7 +303,7 @@ public class Order implements Serializable {
                 ", orderUserName='" + orderUserName + '\'' +
                 ", orderTradingTimeDetail='" + orderTradingTimeDetail + '\'' +
                 ", orderProductImage='" + orderProductImage + '\'' +
-                ", orderProductType='" + orderProductType + '\'' +
+                ", orderProductType=" + orderProductType +
                 ", orderProductPrice=" + orderProductPrice +
                 ", orderPaymentStatus='" + orderPaymentStatus + '\'' +
                 ", orderSendStatus=" + orderSendStatus +
@@ -303,6 +313,8 @@ public class Order implements Serializable {
                 ", orderTradingTimeYear='" + orderTradingTimeYear + '\'' +
                 ", orderStatus=" + orderStatus +
                 ", orderBackMoneyStatus=" + orderBackMoneyStatus +
+                ", userPhone='" + userPhone + '\'' +
+                ", category=" + category +
                 '}';
     }
 }

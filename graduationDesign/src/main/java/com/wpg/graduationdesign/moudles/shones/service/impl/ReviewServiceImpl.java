@@ -27,4 +27,10 @@ public class ReviewServiceImpl implements ReviewService {
         PageInfo<Review> pageInfo=new PageInfo<>(reviewList);
         return pageInfo;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveReview(Review review) {
+        reviewDao.saveReview(review);
+    }
 }

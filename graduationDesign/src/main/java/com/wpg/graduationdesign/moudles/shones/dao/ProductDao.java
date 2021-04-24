@@ -3,6 +3,7 @@ package com.wpg.graduationdesign.moudles.shones.dao;
 import com.wpg.graduationdesign.moudles.shones.entity.Brand;
 import com.wpg.graduationdesign.moudles.shones.entity.Category;
 import com.wpg.graduationdesign.moudles.shones.entity.Product;
+import com.wpg.graduationdesign.moudles.shones.entity.ProductImage;
 import com.wpg.graduationdesign.vo.SearchVo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -73,4 +74,61 @@ public interface ProductDao {
 
     @Select("select product_name from product where product_id=#{productId}")
     String selectProdcutNameByProductId(int productId);
+
+    /**
+     * 通过种类获取商品信息
+     * @param categoryId id
+     * @return list
+     */
+    @Select("select * from product where product_type = #{categoryId} and product_status ='在售' order By promote_price ASC")
+    List<Product> getProductList(@Param("categoryId") Integer categoryId);
+
+    /**
+     * 通过种类获取商品信息
+     * @param categoryId id
+     * @param keywords k
+     * @return list
+     */
+    @Select("select * from product where product_type = #{categoryId} and product_name like ('%${keywords}%') and product_status ='在售' order By promote_price ASC")
+    List<Product> getProductLists(@Param("categoryId") Integer categoryId,@Param("keywords") String keywords);
+
+    /**
+     * 通过商品id获取商品信息
+     * @param productId id
+     * @return list
+     */
+    @Select("select * from product where product_id = #{productId} and product_status ='在售'")
+    Product getProductInfo(@Param("productId") Integer productId);
+
+
+    /**
+     * 通过商品id获取商品其他图片
+     *
+     * @param pId id
+     * @return list
+     */
+    @Select("select * from product_image where pid = #{pId}")
+    List<ProductImage> getProductImages(@Param("pId")Integer pId);
+
+    /**
+     * 减少库存
+     * @param pId p
+     * @param stock s
+     * @return b
+     */
+    @Update("update product set stock = #{stock} where product_id = #{pId}")
+    Boolean stockReduce(@Param("pId") Integer pId,@Param("stock") Integer stock);
+
+    /**
+     * +
+     * @param pId p
+     * @param stock s
+     * @return b
+     */
+    @Update("update product set stock = #{stock} where product_id = #{pId}")
+    Boolean stockAdd(Integer pId, Integer stock);
+
+
+    @Select("select * from product where product_status ='在售' limit 6")
+    List<Product> getProductsFor6();
 }

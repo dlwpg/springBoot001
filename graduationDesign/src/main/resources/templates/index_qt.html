@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+        lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" th:href="${'/qtjtwj/myico.ico'}" type="image/x-icon">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/iconfont.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/global.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/bootstrap.min.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/bootstrap-theme.min.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/swiper.min.css'}">
+    <link rel="stylesheet" th:href="${'/qtjtwj/css/styles.css'}">
+    <script th:src="${'/qtjtwj/js/jquery.1.12.4.min.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/bootstrap.min.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/swiper.min.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/global.js'}" charset="UTF-8"></script>
+    <script th:src="${'/qtjtwj/js/jquery.DJMask.2.1.1.js'}" charset="UTF-8"></script>
+    <title>鞋运网</title>
+</head>
+
+<body>
+        <!--top导航-->
+            <div th:replace="fragments/top_qt"></div>
+
+
+        <!--页面主要内容-->
+        <div th:if="${template}">
+            <div th:replace="${template}"></div>
+        </div>
+
+
+
+
+        <!--right信息-->
+            <div th:replace="fragments/right_qt"></div>
+
+
+        <!--bottom信息-->
+        <div th:replace="fragments/bottom_qt"></div>
+
+</body>
+</html>

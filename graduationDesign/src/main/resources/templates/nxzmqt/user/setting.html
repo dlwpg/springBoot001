@@ -1,0 +1,190 @@
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href=""><img src="/qtjtwj/images/nxzmqt.jpg" class="cover"></a>
+            <div class="title">个人中心</div>
+        </div>
+    </div>
+</div>
+<div class="content clearfix bgf5">
+    <section class="user-center inner clearfix">
+        <div class="pull-left bgf">
+            <div class="title">鞋运网欢迎您</div>
+            <dl class="user-center__nav">
+                <dt>帐户信息</dt>
+                <a href="/nxzmqt/user/setting">
+                    <dd class="active">个人资料</dd>
+                </a>
+                <a href="/nxzmqt/user/shouhuodizhi">
+                    <dd>收货地址</dd>
+                </a>
+                <a href="/nxzmqt/user/xiugaimima1">
+                    <dd>修改密码</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>订单中心</dt>
+                <a href="/nxzmqt/user/wodedingdan">
+                    <dd>我的订单</dd>
+                </a>
+                <a href="/nxzmqt/user/tuihuo">
+                    <dd>退款/退货</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>服务中心</dt>
+                <a href="/nxzmqt/user/wuliuchaxun">
+                    <dd>物流查询</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_shouhoufuwu">
+                    <dd>售后服务</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_peisongfuwu">
+                    <dd>配送服务</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_yonghuxieyi">
+                    <dd>用户协议</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_changjianwenti">
+                    <dd>常见问题</dd>
+                </a>
+            </dl>
+            <dl class="user-center__nav">
+                <dt>鞋运网</dt>
+                <a href="/nxzmqt/temp_article/xyw_qiyejianjie">
+                    <dd>企业简介</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_jiaruwomen">
+                    <dd>加入我们</dd>
+                </a>
+                <a href="/nxzmqt/temp_article/xyw_yinsishuoming">
+                    <dd>隐私说明</dd>
+                </a>
+            </dl>
+        </div>
+        <div class="pull-right">
+            <div class="user-content__box clearfix bgf">
+                <div class="title">账户信息 - 个人资料</div>
+                <div class="port b-r50" id="crop-avatar">
+                    <div class="img"><img src="/qtjtwj/images/icons/default_avt.png" class="cover b-r50"></div>
+                </div>
+                <form action="" class="user-setting__form" role="form">
+                    <div class="user-form-group">
+                        <input type="hidden" id="userId">
+                        <label for="username_setting">用户名：</label>
+                        <input type="text" id="username_setting" placeholder="请输入您的昵称">
+                    </div>
+                    <br/>
+                    <div class="user-form-group">
+                        <label>性别：</label>
+                        <label><input id="sex_1" type="radio" name="sex" value="1"><i class="iconfont icon-radio"></i>
+                            先生</label>
+                        <label><input id="sex_0" type="radio" name="sex" value="0"><i class="iconfont icon-radio"></i>
+                            女士</label>
+                    </div>
+                    <br/>
+                    <div class="user-form-group">
+                        <label>电话：</label>
+                        <input type="text" class="datepicker" id="qt_setting_phone" placeholder="请输入您的电话">
+                    </div>
+                    <br/>
+                    <div class="user-form-group">
+                        <label>地址：</label>
+                        <input type="text" class="datepicker" id="qt_setting_address" value="xxx省-xxx市-xxx"
+                               placeholder="请输入您的地址">
+                    </div>
+                    <br/>
+                    <div class="user-form-group">
+                        <button type="button" id="updateProfile" class="btn">确认修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        //判断是否登录
+        $.ajax({
+            url: "/shone_qt/login_info",
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                console.log(data.object);
+                if (data.object != null) {
+                    //id
+                    if (data.object.userId != null) {
+                        $("#userId").val(data.object.userId)
+                    }
+                    //用户名
+                    if (data.object.userName != null) {
+                        $("#username_setting").val(data.object.userName)
+                    }
+                    //性别
+                    if (data.object.sex == "男") {
+                        $("#sex_1").prop('checked', true);
+                    }
+                    if (data.object.sex == "女") {
+                        $("#sex_0").prop('checked', true);
+                    }
+                    //电话
+                    if (data.object.phone != null) {
+                        $("#qt_setting_phone").val(data.object.phone)
+                    }
+                    //地址
+                    if (data.object.receiveAddress != null) {
+                        $("#qt_setting_address").val(data.object.receiveAddress)
+                    }
+                } else {
+                    alert("系统检测到你未登录，即将跳转登录");
+                    window.location.href = "/nxzmqt/user/login";
+                }
+            },
+            error: function (data) {
+                alert("请求登录用户信息失败")
+            }
+
+        });
+
+        //修改个人信息
+        $("#updateProfile").click(function () {
+            let user = {};
+            user.userId = $("#userId").val();
+            user.userName = $("#username_setting").val();
+            user.phone = $("#qt_setting_phone").val();
+            if (user.phone == null || user.phone == undefined || user.phone == "") {
+                alert("请输入电话号码");
+                return;
+            }
+            let sexvalue = $("input[name='sex']:checked").val();
+            if (sexvalue == '1') {
+                user.sex = '男';
+            } else {
+                user.sex = '女';
+            }
+            user.receiveAddress = $("#qt_setting_address").val();
+            if (user.receiveAddress == null || user.receiveAddress == undefined || user.receiveAddress == "") {
+                alert("请输入电话号码");
+                return;
+            }
+
+            $.ajax({
+                url: "/shone_qt/update_setting",
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 200) {
+                        alert("修改成功，请重新登录");
+                        window.location.href="/nxzmqt/user/login"
+                    } else {
+                        alert("修改失败，请重修改录")
+                    }
+                }
+            });
+        });
+
+    });
+</script>

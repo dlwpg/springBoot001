@@ -2,6 +2,7 @@ package com.wpg.graduationdesign.moudles.shones.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.deploy.net.HttpResponse;
 import com.wpg.graduationdesign.config.ResourceConfigBean;
 import com.wpg.graduationdesign.moudles.shones.dao.RoleDao;
 import com.wpg.graduationdesign.moudles.shones.dao.USerRoleDao;
@@ -18,6 +19,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -69,9 +73,8 @@ public class UserServiceImpl implements UserService {
         Session session = subject.getSession();
         session.setAttribute("UserInfo", subject.getPrincipal());
         System.out.println(subject.getPrincipal());
-        return new Result<>(Result.Resultstatus.SUCCESS.status, "登陆成功！", user);
+        return new Result<>(Result.Resultstatus.SUCCESS.status, "登录成功！", user);
     }
-
 
     @Override
     @Transactional
@@ -253,6 +256,31 @@ public class UserServiceImpl implements UserService {
                 uSerRoleDao.insertRole(userId, item.getRoleId());
             });
             return new Result<>(Result.Resultstatus.SUCCESS.status, "修改成功");
-        } else return new Result<>(Result.Resultstatus.FAILD.status, "无效修改");
+        } else {
+            return new Result<>(Result.Resultstatus.FAILD.status, "无效修改");
+        }
+    }
+
+    @Override
+    public Result<User> checkOldPassword(User user) {
+        User user1 = userDao.loginByUser(user.getUserName());
+        if (user1.getPassWord().equals(MD5Util.getMD5(user.getPassWord()))){
+            return new Result<>(Result.Resultstatus.SUCCESS.status,"原密码正确",user1);
+        }
+        else {
+            return new Result<>(Result.Resultstatus.FAILD.status,"原密码不正确",user1);
+        }
+    }
+
+    @Override
+    public Result<User> updateSetting(User user) {
+        User selectUser = userDao.loginByUser(user.getUserName());
+        if (selectUser != null && user.getUserId() != selectUser.getUserId()) {
+            return new Result<>(Result.Resultstatus.FAILD.status,
+                    "请换个用户名,当前账户已存在！");
+        }
+        userDao.updateProfileQt(user);
+//        userDao.loginByUser(user.getUserName());
+        return new Result<>(Result.Resultstatus.SUCCESS.status,"修改成功",user);
     }
 }

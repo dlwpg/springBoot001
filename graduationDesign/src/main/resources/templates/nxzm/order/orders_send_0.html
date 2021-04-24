@@ -74,7 +74,7 @@
                                 <th>商品类型</th>
                                 <th>单价</th>
                                 <th>所属省份</th>
-<!--                                <th>操作</th>-->
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -190,7 +190,7 @@
                 {data: 'orderProductType', name: "order_product_type", sortable: false},
                 {data: 'orderProductPrice', name: "order_product_price", sortable: false},
                 {data: 'orderProvince', name: "order_province", sortable: false},
-                // {data: 'operate', width: '85px', sortable: false}
+                {data: 'operate', width: '85px', sortable: false}
             ]
         });
 
@@ -213,10 +213,28 @@
         this.orderProductType = orderProductType;
         this.orderProductPrice = orderProductPrice;
         this.orderProvince = orderProvince;
-        // this.operate = function () {
-        //     return "<a href='javascript:void(0);' class='btn btn-yellow' id='editOrderBtn' " +
-        //         "onclick='initorderModal(\"" + orderNumber + "\")'>编辑</a>&nbsp;";
-        // }
+        this.operate = function () {
+            return "<a href='javascript:void(0);' class='btn btn-success' " +
+                "onclick='sendGoods(\"" + orderNumber + "\")'>发货</a>&nbsp;";
+        }
+    }
+
+    function sendGoods(orderNumber) {
+        $.ajax({
+            url:"/shone/send/"+orderNumber,
+            type: "put",
+            contentType: "application/json",
+            success:function (data) {
+                if (data){
+                    alert("发货成功");
+                }else {
+                    alert("发货失败");
+                }
+            },
+            error:function () {
+                alert("服务异常");
+            }
+        })
     }
 
 </script>

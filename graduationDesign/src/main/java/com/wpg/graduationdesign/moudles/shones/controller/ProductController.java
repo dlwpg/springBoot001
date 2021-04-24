@@ -48,7 +48,7 @@ public class ProductController {
 
 
     /**
-     * 修改用户信息
+     * 修改商品信息
      * 127.0.0.1/shone/product/product   ---put
      */
     @PutMapping(value = "/product/product", consumes = "application/json", produces = "application/json")
